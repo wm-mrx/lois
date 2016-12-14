@@ -326,7 +326,7 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/shipment', JSON.stringify(data), config);
+                return app.http.post('http://limassentosa.net:8000/report-engine/deliveryList', JSON.stringify(data), config);
             };
             reportPrint.printCommision = function (data) {
                 var config = {

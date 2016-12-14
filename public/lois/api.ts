@@ -341,7 +341,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://limassentosa.net:8000/report-engine/shipment', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/report-engine/deliveryList', JSON.stringify(data), config);
         }
 
         static printCommision(data: any) {
