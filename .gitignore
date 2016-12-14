@@ -6,3 +6,5 @@ public/lois/controllers/*.js.map
 public/berita_acara/*.pdf
 obj/Debug
 env.json
+migrate_script
+bson_dump
