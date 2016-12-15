@@ -77,8 +77,11 @@ var app;
                     this.notify('warning', 'Tidak ada data yang pilih');
                     return;
                 }
-                if (this.printNoPrice && this.renderFunc == app.api.reportPrint.printRecapitulation) {
-                    this.renderFunc = app.api.reportPrint.printRecapitulationNoPrice;
+                if (this.activeReport === 'Rekapitulasi') {
+                    if (this.printNoPrice)
+                        this.renderFunc = app.api.reportPrint.printRecapitulationNoPrice;
+                    else
+                        this.renderFunc = app.api.reportPrint.printRecapitulation;
                 }
                 var ctrl = this;
                 ctrl.loadingData = true;
