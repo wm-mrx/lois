@@ -45,7 +45,7 @@ Controller.prototype.getDestinations = function (query) {
                 "_id": "$destination",
                 "colli": { "$sum": "$items.colli.quantity" },
                 "weight": { "$sum": "$items.dimensions.weight" },
-                "price": { "$sum": "$cost.total" },
+                "price": { "$sum": "$items.cost.shipping" },
                 "shippings": { "$sum": 1 },
             }
         },
@@ -82,7 +82,7 @@ Controller.prototype.getSenders = function (query) {
                 "_id": "$sender",
                 "colli": { "$sum": "$items.colli.quantity" },
                 "weight": { "$sum": "$items.dimensions.weight" },
-                "price": { "$sum": "$cost.total" },
+                "price": { "$sum": "$items.cost.shipping" },
                 "shippings": { "$sum": 1 }
             }
         },
@@ -119,7 +119,7 @@ Controller.prototype.getPaymentTypes = function (query) {
                 "_id": "$payment.type",
                 "colli": { "$sum": "$items.colli.quantity" },
                 "weight": { "$sum": "$items.dimensions.weight" },
-                "price": { "$sum": "$cost.total" },
+                "price": { "$sum": "$items.cost.shipping" },
                 "shippings": { "$sum": 1 }
             }
         },
@@ -156,7 +156,7 @@ Controller.prototype.getPaymentStatuses = function (query) {
                 "_id": "$payment.status",
                 "colli": { "$sum": "$items.colli.quantity" },
                 "weight": { "$sum": "$items.dimensions.weight" },
-                "price": { "$sum": "$cost.total" },
+                "price": { "$sum": "$items.cost.shipping" },
                 "shippings": { "$sum": 1 }
             }
         },
@@ -192,7 +192,7 @@ Controller.prototype.getRegions = function (query) {
                 "_id": "$regions.destination",
                 "colli": { "$sum": "$items.colli.quantity" },
                 "weight": { "$sum": "$items.dimensions.weight" },
-                "price": { "$sum": "$cost.total" },
+                "price": { "$sum": "$items.cost.shipping" },
                 "shippings": { "$sum": 1 }
             }
         },
