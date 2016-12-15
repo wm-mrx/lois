@@ -4,11 +4,13 @@
         activeReport: string;
         renderFunc: Function;
         dataFunc: Function;
+        printNoPrice: boolean;
 
         static $inject = ['$scope', 'Notification'];
 
         constructor($scope, Notification) {
             super(Notification);
+            this.printNoPrice = false;
             this.showToolbar = true;
             this.functions.autocomplete = api.autocomplete.getAll;
             this.init();
@@ -79,6 +81,10 @@
             if (checkedEntities.length === 0) {
                 this.notify('warning', 'Tidak ada data yang pilih');
                 return;
+            }
+
+            if (this.printNoPrice && this.renderFunc == app.api.reportPrint.printRecapitulation) {
+                this.renderFunc = app.api.reportPrint.printRecapitulationNoPrice;
             }
 
             var ctrl = this;

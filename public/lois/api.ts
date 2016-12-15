@@ -328,6 +328,14 @@
             return app.http.post('http://limassentosa.net:8000/report-engine/recapitulation', JSON.stringify(data), config);
         }
 
+        static printRecapitulationNoPrice(data) {
+            var config = {
+                "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                "responseType": "arraybuffer"
+            };
+            return app.http.post('http://lois.limassentosa.net/index.php/recapitulationNoPrice', JSON.stringify(data), config);
+        };
+
         static printDelivery(data: any) {
             var config = {
                 "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },

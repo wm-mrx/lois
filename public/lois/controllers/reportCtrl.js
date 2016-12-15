@@ -11,6 +11,7 @@ var app;
             __extends(reportCtrl, _super);
             function reportCtrl($scope, Notification) {
                 _super.call(this, Notification);
+                this.printNoPrice = false;
                 this.showToolbar = true;
                 this.functions.autocomplete = app.api.autocomplete.getAll;
                 this.init();
@@ -75,6 +76,9 @@ var app;
                 if (checkedEntities.length === 0) {
                     this.notify('warning', 'Tidak ada data yang pilih');
                     return;
+                }
+                if (this.printNoPrice && this.renderFunc == app.api.reportPrint.printRecapitulation) {
+                    this.renderFunc = app.api.reportPrint.printRecapitulationNoPrice;
                 }
                 var ctrl = this;
                 ctrl.loadingData = true;
