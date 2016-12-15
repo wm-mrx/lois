@@ -22,6 +22,10 @@
             return http.get('/lois/api/shipping/getAll?query=' + JSON.stringify(query));
         }
 
+        static getDataReport(data) {
+            return http.post('/lois/api/shipping/getDataReport', JSON.stringify(data));
+        }
+
         static save(data: any) {
             return http.post('/lois/api/shipping/save', JSON.stringify(data));
         }
@@ -269,6 +273,22 @@
         static getCommisionsReport(data: any, query: any) {
             return http.post('/lois/api/reportData/getCommisionsReport?query=' + JSON.stringify(query), JSON.stringify(data));
         }
+
+        static getPayOff (query) {
+            return http.get('/lois/api/reportData/getPayOff?query=' + JSON.stringify(query));
+        }
+
+        static getPayOffReport (data, query) {
+            return app.http.post('/lois/api/reportData/getPayOffReport?query=' + JSON.stringify(query), JSON.stringify(data));
+        }
+
+        static getPartner(query) {
+            return app.http.get('/lois/api/reportData/getPartner?query=' + JSON.stringify(query));
+        }
+
+        static getPartnerReport (data, query) {
+            return app.http.post('/lois/api/reportData/getPartnerReport?query=' + JSON.stringify(query), JSON.stringify(data));
+        }
     }
 
     export class reportPrint {
@@ -278,7 +298,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://limassentosa.net:8000/report-engine/suratjalan', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/report-engine/deliveryOrder', JSON.stringify(data), config);
         }
 
         static printPaid(data: any) {

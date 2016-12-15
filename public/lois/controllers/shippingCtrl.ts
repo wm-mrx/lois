@@ -5,11 +5,13 @@
         viewType: ViewType;
         selectedEntity: any;
         selectedItem: any;
+        printNoPrice: boolean;
 
         static $inject = ['$scope', 'Notification'];
 
         constructor($scope, Notification) {
             super(Notification);
+            this.printNoPrice = false;
             this.viewType = ViewType.shipping;
             this.functions.load = api.shipping.getAll;
             this.functions.get = api.shipping.get;
@@ -63,7 +65,6 @@
             }).catch(error => {
                 ctrl.notify('error', error.data);
             }).finally(() => {
-                ;
                 ctrl.processing = false;
             });
         }
@@ -191,6 +192,50 @@
             this.showForm = show;
             this.selectedItem = null;
             this.load();
+        }
+
+        print(): void {
+            var ctrl = this;
+
+            var checkedEntities = this.entities.filter(function (e) { return e.checked; });
+            if (checkedEntities.length === 0) {
+                this.notify('warning', 'Tidak ada item yang dipilih');
+                return;
+            }
+
+            var viewModels = [];
+            checkedEntities.forEach(function (entity) {
+                var viewModel = {
+                    shipping: entity._id,
+                    sender: entity.sender.name,
+                    sender_contact: entity.sender.contact,
+                    sender_driver: entity.driver.sender,
+                    pickup_driver: entity.driver.pickup,
+                    destination_city: entity.destination.name,
+                    receiver: entity.receiver.name,
+                    receiver_phone: entity.receiver.contact,
+                    receiver_address: entity.receiver.address,
+                    sum_total_coli: entity.colli,
+                    sum_price: entity.cost.total,
+                    payment_method: entity.payment.type.name,
+                    spb_no: entity.spbNumber,
+                    po_no: entity.notes.po,
+                    transaction_date: entity.date,
+                    note: entity.notes.shipping,
+                    noPrice: this.printNoPrice
+                };
+                viewModels.push(viewModel);
+            });
+
+            app.api.shipping.getDataReport(viewModels).then(function (result) {
+                app.api.reportPrint.printDeliveryOrder(result.data).then(function (buffer) {
+                    var blob = new Blob([buffer.data], { type: 'application/pdf' });
+                    var url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                });
+            }).finally(function () {
+                ctrl.loadingData = false;
+            });
         }
     }
 

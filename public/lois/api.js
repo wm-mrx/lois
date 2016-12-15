@@ -26,6 +26,9 @@ var app;
             shipping.getAll = function (query) {
                 return app.http.get('/lois/api/shipping/getAll?query=' + JSON.stringify(query));
             };
+            shipping.getDataReport = function (data) {
+                return app.http.post('/lois/api/shipping/getDataReport', JSON.stringify(data));
+            };
             shipping.save = function (data) {
                 return app.http.post('/lois/api/shipping/save', JSON.stringify(data));
             };
@@ -266,6 +269,18 @@ var app;
             report.getCommisionsReport = function (data, query) {
                 return app.http.post('/lois/api/reportData/getCommisionsReport?query=' + JSON.stringify(query), JSON.stringify(data));
             };
+            report.getPayOff = function (query) {
+                return app.http.get('/lois/api/reportData/getPayOff?query=' + JSON.stringify(query));
+            };
+            report.getPayOffReport = function (data, query) {
+                return app.http.post('/lois/api/reportData/getPayOffReport?query=' + JSON.stringify(query), JSON.stringify(data));
+            };
+            report.getPartner = function (query) {
+                return app.http.get('/lois/api/reportData/getPartner?query=' + JSON.stringify(query));
+            };
+            report.getPartnerReport = function (data, query) {
+                return app.http.post('/lois/api/reportData/getPartnerReport?query=' + JSON.stringify(query), JSON.stringify(data));
+            };
             return report;
         }());
         api.report = report;
@@ -277,7 +292,7 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/suratjalan', JSON.stringify(data), config);
+                return app.http.post('http://limassentosa.net:8000/report-engine/deliveryOrder', JSON.stringify(data), config);
             };
             reportPrint.printPaid = function (data) {
                 var config = {
