@@ -222,7 +222,7 @@
                     po_no: entity.notes.po,
                     transaction_date: entity.date,
                     note: entity.notes.shipping,
-                    noPrice: this.printNoPrice
+                    noPrice: ctrl.printNoPrice
                 };
                 viewModels.push(viewModel);
             });
