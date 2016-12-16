@@ -305,14 +305,14 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/paid', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/paid', JSON.stringify(data), config);
             };
             reportPrint.printUnpaid = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/unpaid', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/unpaid', JSON.stringify(data), config);
             };
             reportPrint.printRecapitulation = function (data) {
                 var config = {
@@ -321,27 +321,19 @@ var app;
                 };
                 return app.http.post('http://localhost/lois-report-engine/index.php/recapitulation', JSON.stringify(data), config);
             };
-            reportPrint.printRecapitulationNoPrice = function (data) {
-                var config = {
-                    "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                    "responseType": "arraybuffer"
-                };
-                return app.http.post('http://lois.limassentosa.net/index.php/recapitulationNoPrice', JSON.stringify(data), config);
-            };
-            ;
             reportPrint.printDelivery = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/delivery', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/delivery', JSON.stringify(data), config);
             };
             reportPrint.printReturn = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/return', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/retur', JSON.stringify(data), config);
             };
             reportPrint.printUnconfirmed = function (data) {
                 var config = {

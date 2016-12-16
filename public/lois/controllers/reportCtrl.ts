@@ -87,19 +87,14 @@
                 return;
             }
 
-            if (this.activeReport === 'Rekapitulasi') {
-                if (this.printNoPrice)
-                    this.renderFunc = app.api.reportPrint.printRecapitulationNoPrice;
-                else
-                    this.renderFunc = app.api.reportPrint.printRecapitulation
-            }
-  
+            angular.extend(this.query, { "printNoPrice": this.printNoPrice });
+
             this.loadingData = true;
 
             var dataFunction = this.dataFunc(checkedEntities, this.query); 
 
             dataFunction.then(result => {
-                angular.extend(result.data, { "orientation": this.orientation, "unit": 'mm', "paper": this.paper });
+                angular.extend(result.data, { "orientation": this.orientation, "unit": 'mm', "paper": this.paper, "printNoPrice": this.printNoPrice });
 
                 this.renderFunc(result.data).then(buffer => {
                     var blob = new Blob([buffer.data], { type: 'application/pdf' });

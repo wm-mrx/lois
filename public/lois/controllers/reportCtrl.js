@@ -81,16 +81,11 @@ var app;
                     this.notify('warning', 'Tidak ada data yang pilih');
                     return;
                 }
-                if (this.activeReport === 'Rekapitulasi') {
-                    if (this.printNoPrice)
-                        this.renderFunc = app.api.reportPrint.printRecapitulationNoPrice;
-                    else
-                        this.renderFunc = app.api.reportPrint.printRecapitulation;
-                }
+                angular.extend(this.query, { "printNoPrice": this.printNoPrice });
                 this.loadingData = true;
                 var dataFunction = this.dataFunc(checkedEntities, this.query);
                 dataFunction.then(function (result) {
-                    angular.extend(result.data, { "orientation": _this.orientation, "unit": 'mm', "paper": _this.paper });
+                    angular.extend(result.data, { "orientation": _this.orientation, "unit": 'mm', "paper": _this.paper, "printNoPrice": _this.printNoPrice });
                     _this.renderFunc(result.data).then(function (buffer) {
                         var blob = new Blob([buffer.data], { type: 'application/pdf' });
                         var url = URL.createObjectURL(blob);

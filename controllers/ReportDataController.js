@@ -44,12 +44,13 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
 
     var result = {
         "title": "LAPORAN SURAT JALAN TERBAYAR",
-        "template_file": "lapterbayar.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "report_date": query['transferDate'],
-        "report_bank": query['bank'],
-        "report_data": []
+        "reportDate": query['transferDate'],
+        "reportBank": query['bank'],
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'BANK', 'INVOICE'],
+        "rows": []
     };
 
     return co(function* () {
@@ -58,7 +59,7 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
         var sumPrice = 0;
         var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
 
-        result['payment_method'] = paymentType ? paymentType.name : " ";
+        result['paymentMethod'] = paymentType ? paymentType.name : " ";
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
@@ -68,16 +69,16 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
             var banks = _.map(viewModel.payment.phases, "bank");
             var totalColli = _.sumBy(viewModel.items, "colli.quantity");
 
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
                 "content": contents.length > 0 ? contents.join(', ') : " ",
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
-                "transaction_date": transactionDates,
-                "payment_date": paymentDates.length > 0 ? paymentDates.join(', ') : " ",
+                "transactionDate": transactionDates,
+                "paymentDate": paymentDates.length > 0 ? paymentDates.join(', ') : " ",
                 "bank": banks.length > 0 ? banks.join(', ') : " ",
                 "invoice": viewModel.invoice.client ? viewModel.invoice.client : viewModel.invoice.all ? viewModel.invoice.all : " "
             });
@@ -87,9 +88,9 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
             sumPrice += viewModel.cost.total;
         });
 
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_price'] = sumPrice;
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumPrice'] = sumPrice;
 
         return result;
     });
@@ -126,11 +127,12 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
 
     var result = {
         "title": "LAPORAN SURAT JALAN BELUM TERBAYAR",
-        "template_file": "lapbelumbayar.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
         "date": new Date(),
-        "report_data": []
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'INVOICE', 'DATE'],
+        "rows": []
     };
 
     return co(function* () {
@@ -159,17 +161,17 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
 
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
 
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
                 "content": contents.length > 0 ? contents.join(', ') : " ",
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
-                "payment_method": viewModel.payment.type.name,
-                "invoice_no": invoices.length > 0 ? invoices.join(', ') : " ",
-                "transaction_date": viewModel.date
+                "paymentMethod": viewModel.payment.type.name,
+                "invoice": invoices.length > 0 ? invoices.join(', ') : " ",
+                "transactionDate": viewModel.date
             });
 
             sumTotalColli += totalColli;
@@ -177,9 +179,9 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
             sumPrice += viewModel.cost.total;
         });
 
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_price'] = sumPrice;
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumPrice'] = sumPrice;
 
         return result;
     });
@@ -238,15 +240,22 @@ Controller.prototype.getRecapitulationsReport = function (viewModels, query, use
 
     var result = {
         "title": "LAPORAN REKAP",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "trainType": "",
         "user": user.name,
         "date": query['recapDate'] ? query['recapDate'] : query['departureDate'],
         "driver": null,
         "car": null,
-        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
+        "printNoPrice": viewModels[0].noPrice,
+        "headers": [],
         "rows": []
     };
+
+    if (query.printNoPrice)
+        result.headers = ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'TOTAL QTY', 'WEIGHT', 'PAYMENT', 'LIMAS', 'RELATION', 'DATE', 'DESTINATION'];
+    else
+        result.headers = ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'TOTAL QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'LIMAS', 'RELATION', 'DATE', 'DESTINATION'];
 
     return co(function* () {
         var totalColliQuantity = 0;
@@ -371,13 +380,14 @@ Controller.prototype.getDeliveriesReport = function (viewModels, user) {
 
     var result = {
         "title": "LAPORAN PENGANTAR BARANG",
-        "template_file": "lapdelivery.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "date": viewModels[0].items.deliveries.date,
-        "delivery_driver": null,
-        "delivery_car": null,
-        "report_data": []
+        "date": viewModels[0].items.deliveries.date ? viewModels[0].items.deliveries.date : viewModels[0].items.deliveries.createdDate ? viewModels[0].items.deliveries.createdDate : '',
+        "driver": null,
+        "car": null,
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'ADDRESS', 'PHONE', 'CONTENT', 'QTY', 'TOTAL QTY', 'DELIVERY', 'PAYMENT', 'REMARKS'],
+        "rows": []
     };
 
     return co(function* () {
@@ -407,20 +417,21 @@ Controller.prototype.getDeliveriesReport = function (viewModels, user) {
             }
 
             if (driver)
-                result.delivery_driver = driver.name;
+                result.driver = driver.name;
 
-            result.delivery_car = viewModel.items.deliveries.vehicleNumber;
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.car = viewModel.items.deliveries.vehicleNumber;
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender[0].name,
                 "receiver": viewModel.receiver.name,
-                "receiver_address": viewModel.receiver.address,
-                "receiver_contact": viewModel.receiver.contact,
+                "receiverAddress": viewModel.receiver.address,
+                "receiverContact": viewModel.receiver.contact,
                 "content": viewModel.items.content,
-                "total_coli": viewModel.items.colli.quantity,
-                "coli": viewModel.items.deliveries.quantity,
+                "totalColli": viewModel.items.colli.quantity,
+                "colli": viewModel.items.deliveries.quantity,
                 "price": price,
-                "payment_method": viewModel.paymentType[0].name
+                "notes": '',
+                "paymentMethod": viewModel.paymentType[0].name
             });
         });
 
@@ -458,11 +469,12 @@ Controller.prototype.getReturnsReport = function (viewModels, query, user) {
     var self = this;
     var result = {
         "title": "LAPORAN RETUR",
-        "template_file": "lapretur.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
         "date": query['returnDate'] ? query['returnDate'] : null,
-        "report_data": []
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'DELIVERY', 'RELATION NO.', 'LIMAS', 'RELATION', 'DRIVER', 'RECEIVED DATE', 'RECEIVED BY', 'SIGNATURE', 'STAMP', 'RECEIPT'],
+        "rows": []
     };
 
     return co(function* () {
@@ -471,7 +483,7 @@ Controller.prototype.getReturnsReport = function (viewModels, query, user) {
 
         var payment_method = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
         if (payment_method)
-            result['payment_method'] = payment_method.name;
+            result['paymentMethod'] = payment_method.name;
 
         yield* _co.coEach(viewModels, function* (viewModel) {
 
@@ -494,28 +506,28 @@ Controller.prototype.getReturnsReport = function (viewModels, query, user) {
                         drivers.push(driver.name);
 
                     vehicleNumbers.push(delivery.vehicleNumber);
-                    deliveryDates.push(delivery.date);
+                    deliveryDates.push(delivery.date ? delivery.date : delivery.createdDate);
                 });
             });
 
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "price": viewModel.cost.total,
-                "limas_color": viewModel.returnInfo.limasColor,
-                "relation_color": viewModel.returnInfo.relationColor,
-                "partner_no": viewModel.returnInfo.relationCode,
-                "delivery_driver": drivers.length > 0 ? drivers.join(', ') : " ",
-                "delivery_car_no": vehicleNumbers.length > 0 ? vehicleNumbers.join(', ') : " ",
-                "delivery_date": deliveryDates.length > 0 ? deliveryDates.join(', ') : " ",
-                "retur_signature": viewModel.returnInfo.signed ? 'v' : 'x',
-                "retur_stamp": viewModel.returnInfo.stamped ? 'v' : 'x',
-                "retur_received_by": viewModel.returnInfo.concernedPerson,
-                "retur_porter_receipt": viewModel.returnInfo.receipt ? 'v' : 'x'
+                "limasColor": viewModel.returnInfo.limasColor,
+                "relationColor": viewModel.returnInfo.relationColor,
+                "partnerNumber": viewModel.returnInfo.relationCode,
+                "driver": drivers.length > 0 ? drivers.join(', ') : " ",
+                "car": vehicleNumbers.length > 0 ? vehicleNumbers.join(', ') : " ",
+                "date": deliveryDates.length > 0 ? deliveryDates.join(', ') : " ",
+                "signature": viewModel.returnInfo.signed ? 'v' : 'x',
+                "stamp": viewModel.returnInfo.stamped ? 'v' : 'x',
+                "receivedBy": viewModel.returnInfo.concernedPerson,
+                "porterReceipt": viewModel.returnInfo.receipt ? 'v' : 'x'
             });
         });
 
-        result['destination_city'] = destinations;
+        result['destination'] = destinations;
 
         return result;
     });
@@ -706,13 +718,13 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
 
     var result = {
         "title": "LAPORAN KOMISI",
-        "template_file": "lapkomisi.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "start_date": query['from'],
-        "end_date": query['to'],
-        "payment_status": query['paymentStatus'],
-        "report_data": []
+        "startDate": query['from'],
+        "endDate": query['to'],
+        "paymentStatus": query['paymentStatus'],
+        "rows": []
     };
 
     return co(function* () {
@@ -732,7 +744,7 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
 
         if (query['paymentType']) {
             var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
-            result['payment_method'] = paymentType.name;
+            result['paymentMethod'] = paymentType.name;
         }
 
         yield* _co.coEach(viewModels, function* (viewModel) {
@@ -747,18 +759,18 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
 
             result.report_data.push({
                 "transaction_date": viewModel.date,
-                "spb_no": viewModel.spbNumber,
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
                 "content": contents.length > 0 ? contents.join(', ') : " ",
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
                 "cost": cost,
                 "price": viewModel.cost.total,
-                "bea_tambahan": totalAdditionalCost,
+                "additionalCost": totalAdditionalCost,
                 "pph": pph,
                 "ppn": ppn,
-                "bea_kuli": viewModel.cost.worker
+                "workerCost": viewModel.cost.worker
             });
 
             sumTotalColli += totalColli;
@@ -772,15 +784,15 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
             sumPpn += ppn;
         });
 
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_price'] = sumPrice;
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumPrice'] = sumPrice;
 
-        result['sum_cost'] = sumCost;
-        result['sum_bea_tambahan'] = sumBeaTambahan;
-        result['sum_bea_kuli'] = sumBeaKuli;
-        result['sum_pph'] = sumPph;
-        result['sum_ppn'] = sumPpn;
+        result['sumCost'] = sumCost;
+        result['sumAdditionalCost'] = sumBeaTambahan;
+        result['sumWorkerCost'] = sumBeaKuli;
+        result['sumPph'] = sumPph;
+        result['sumPpn'] = sumPpn;
 
         return result;
     });
@@ -802,11 +814,11 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
 
     var result = {
         "title": "LUNAS",
-        "template_file": "laplunas.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "start_date": query['from'],
-        "report_data": []
+        "startDate": query['from'],
+        "rows": []
     };
 
     return co(function* () {
@@ -820,17 +832,17 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
             var contents = _.map(viewModel.items, "content");
 
             result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
-                "destination_region": viewModel.regions.destination.name,
-                "destination_city": viewModel.destination.name,
+                "destinationRegion": viewModel.regions.destination.name,
+                "destination": viewModel.destination.name,
                 "content": contents.length > 0 ? contents.join(', ') : " ",
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
-                "payment_method": viewModel.payment.type.name,
-                "transaction_date": viewModel.date
+                "paymentMethod": viewModel.payment.type.name,
+                "transactionDate": viewModel.date
             });
 
             sumTotalColli += totalColli;
@@ -838,9 +850,9 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
             sumPrice += viewModel.cost.total;
         });
 
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_price'] = sumPrice;
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumPrice'] = sumPrice;
 
         return result;
     });
@@ -883,15 +895,15 @@ Controller.prototype.getPartnerReport = function (viewModels, query, user) {
 
     var result = {
         "title": "PARTNER",
-        "template_file": "lappartner.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "start_date": query['from'],
-        "end date": query['to'],
+        "startDate": query['from'],
+        "endDate": query['to'],
         "feeType": query['feeType'] == "" ? "expedition" : query['feeType'],
         "paymentStatus": query['paymentStatus'] || " ",
         "paymentDate": query['paymentDate'] || " ",
-        "report_data": []
+        "rows": []
     };
 
     return co(function* () {
@@ -906,17 +918,17 @@ Controller.prototype.getPartnerReport = function (viewModels, query, user) {
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
 
             result.report_data.push({
-                "transaction_date": viewModel.date,
-                "spb_no": viewModel.spbNumber,
+                "transactionDate": viewModel.date,
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
                 "partner": viewModel.partner ? viewModel.partner.name : " ",
-                "payment_fee": viewModel.cost.partner,
-                "partner_code": viewModel.returnInfo.relationCode ? viewModel.returnInfo.relationCode : " ",
-                "destination_city": viewModel.destination.name,
-                "worker_fee": viewModel.cost.worker,
+                "paymentFee": viewModel.cost.partner,
+                "partnerCode": viewModel.returnInfo.relationCode ? viewModel.returnInfo.relationCode : " ",
+                "destination": viewModel.destination.name,
+                "workerFee": viewModel.cost.worker,
             });
 
             sumTotalColli += totalColli;
@@ -926,11 +938,11 @@ Controller.prototype.getPartnerReport = function (viewModels, query, user) {
             sumWorkerFee += viewModel.cost.worker;
         });
 
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_price'] = sumPrice;
-        result['sum_partner_fee'] = sumPartnerFee;
-        result['sum_worker_fee'] = sumWorkerFee;
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumPrice'] = sumPrice;
+        result['sumPartnerFee'] = sumPartnerFee;
+        result['sumWorkerFee'] = sumWorkerFee;
 
         return result;
     });   
