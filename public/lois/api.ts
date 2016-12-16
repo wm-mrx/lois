@@ -96,6 +96,10 @@
             return http.post('/lois/api/recapitulation/recap', JSON.stringify(data));
         }
 
+        static updateRecap(data) {
+            return http.post('/lois/api/recapitulation/updateRecap', JSON.stringify(data));
+        };
+
         static cancelRecap(data: any) {
             return http.post('/lois/api/recapitulation/cancelRecap', JSON.stringify(data));
         }
@@ -170,6 +174,10 @@
 
         static getInvoiceReport(data: any) {
             return http.post('/lois/api/invoice/getInvoiceReport', JSON.stringify(data));
+        }
+
+        static updateInvoice(data) {
+            return app.http.post('/lois/api/invoice/updateInvoice', JSON.stringify(data));
         }
     }
 
@@ -306,7 +314,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://limassentosa.net:8000/report-engine/deliveryOrder', JSON.stringify(data), config);
+            return app.http.post('http://localhost/lois-report-engine/index.php/deliveryOrder', JSON.stringify(data), config);
         }
 
         static printPaid(data: any) {

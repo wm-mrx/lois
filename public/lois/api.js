@@ -95,6 +95,10 @@ var app;
             recapitulation.recap = function (data) {
                 return app.http.post('/lois/api/recapitulation/recap', JSON.stringify(data));
             };
+            recapitulation.updateRecap = function (data) {
+                return app.http.post('/lois/api/recapitulation/updateRecap', JSON.stringify(data));
+            };
+            ;
             recapitulation.cancelRecap = function (data) {
                 return app.http.post('/lois/api/recapitulation/cancelRecap', JSON.stringify(data));
             };
@@ -169,6 +173,9 @@ var app;
             };
             invoice.getInvoiceReport = function (data) {
                 return app.http.post('/lois/api/invoice/getInvoiceReport', JSON.stringify(data));
+            };
+            invoice.updateInvoice = function (data) {
+                return app.http.post('/lois/api/invoice/updateInvoice', JSON.stringify(data));
             };
             return invoice;
         }());
@@ -298,7 +305,7 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/deliveryOrder', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/deliveryOrder', JSON.stringify(data), config);
             };
             reportPrint.printPaid = function (data) {
                 var config = {

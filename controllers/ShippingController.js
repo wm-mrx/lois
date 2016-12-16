@@ -306,9 +306,9 @@ Controller.prototype.getDataReport = function (viewModels, user) {
 
     var result = {
         "title": "SURAT JALAN",
-        "template_file": "suratjalan.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "user": user.name,
-        "report_data": []
+        "rows": []
     };
 
     return co(function* () {
@@ -333,24 +333,24 @@ Controller.prototype.getDataReport = function (viewModels, user) {
                 additional += item.cost.additional;
             });
 
-            result.report_data.push({
+            result.rows.push({
                 sender: viewModel.sender,
-                sender_driver: viewModel.sender_driver,
-                sender_contact: viewModel.sender_contact,
-                pickup_driver: viewModel.pickup_driver,
-                destination_city: viewModel.destination_city,
+                senderDriver: viewModel.sender_driver,
+                senderContact: viewModel.sender_contact,
+                pickupDriver: viewModel.pickup_driver,
+                destination: viewModel.destination_city,
                 receiver: viewModel.receiver,
-                receiver_phone: viewModel.receiver_phone,
-                receiver_address: viewModel.receiver_address,
+                receiverPhone: viewModel.receiver_phone,
+                receiverAddress: viewModel.receiver_address,
                 items: items,
-                sum_total_coli: totalColli,
-                sum_total_weight: totalWeight,
-                bea_tambahan: viewModel.noPrice ? 0 : additional,
-                sum_price: viewModel.noPrice ? 0 : viewModel.sum_price,
-                payment_method: viewModel.payment_method,
-                spb_no: viewModel.spb_no,
-                po_no: viewModel.po_no,
-                transaction_date: viewModel.transaction_date,
+                sumTotalColli: totalColli,
+                sumTotalWeight: totalWeight,
+                additionalCost: viewModel.noPrice ? 0 : additional,
+                sumPrice: viewModel.noPrice ? 0 : viewModel.sum_price,
+                paymentMethod: viewModel.payment_method,
+                spbNumber: viewModel.spb_no,
+                poNumber: viewModel.po_no,
+                transactionDate: viewModel.transaction_date,
                 note: viewModel.note
             });
 

@@ -100,6 +100,39 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
+            recapitulationCtrl.prototype.updateRecap = function () {
+                var _this = this;
+                var checkedEntities = this.entities.filter(function (e) { return e.checked; });
+                if (checkedEntities.length === 0) {
+                    this.notify('warning', 'Tidak ada item yang dipilih');
+                    return;
+                }
+                var viewModels = [];
+                checkedEntities.forEach(function (entity) {
+                    var departureDate = new Date(_this.departureDate);
+                    var viewModel = {
+                        shipping: entity._id,
+                        item: entity.items._id,
+                        recapitulation: entity.items.recapitulations._id,
+                        limasColor: entity.viewModel.limasColor,
+                        relationColor: entity.viewModel.relationColor,
+                        notes: entity.viewModel.notes,
+                        driver: _this.driver ? _this.driver._id : null,
+                        trainType: _this.trainType ? _this.trainType._id : null,
+                        vehicleNumber: _this.vehicleNumber || null,
+                        departureDate: _this.departureDate ? Date.UTC(departureDate.getFullYear(), departureDate.getMonth(), departureDate.getDate()) : null
+                    };
+                    viewModels.push(viewModel);
+                });
+                app.api.recapitulation.updateRecap(viewModels).then(function (result) {
+                    this.notify('success', 'Proses update rekapitulasi berhasil');
+                    this.load();
+                }).catch(function (error) {
+                    this.notify('error', 'Update rekapitulasi gagal ' + error.data);
+                }).finally(function () {
+                    this.loadingData = false;
+                });
+            };
             recapitulationCtrl.prototype.cancelRecap = function () {
                 var _this = this;
                 var checkedEntities = this.entities.filter(function (e) { return e.checked; });

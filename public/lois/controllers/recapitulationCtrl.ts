@@ -108,6 +108,42 @@
             });
         }
 
+        updateRecap(): void {
+            var checkedEntities = this.entities.filter(e => e.checked);
+
+            if (checkedEntities.length === 0) {
+                this.notify('warning', 'Tidak ada item yang dipilih');
+                return;
+            }
+
+            var viewModels = [];
+            checkedEntities.forEach(entity => {
+                var departureDate = new Date(this.departureDate);
+                var viewModel = {
+                    shipping: entity._id,
+                    item: entity.items._id,
+                    recapitulation: entity.items.recapitulations._id,
+                    limasColor: entity.viewModel.limasColor,
+                    relationColor: entity.viewModel.relationColor,
+                    notes: entity.viewModel.notes,
+                    driver: this.driver ? this.driver._id : null,
+                    trainType: this.trainType ? this.trainType._id : null,
+                    vehicleNumber: this.vehicleNumber || null,
+                    departureDate: this.departureDate ? Date.UTC(departureDate.getFullYear(), departureDate.getMonth(), departureDate.getDate()) : null
+                }
+                viewModels.push(viewModel);
+            });
+
+            app.api.recapitulation.updateRecap(viewModels).then(function (result) {
+                this.notify('success', 'Proses update rekapitulasi berhasil');
+                this.load();
+            }).catch(function (error) {
+                this.notify('error', 'Update rekapitulasi gagal ' + error.data);
+            }).finally(function () {
+                this.loadingData = false;
+            });
+        }
+
         cancelRecap(): void {
             var checkedEntities = this.entities.filter(e => e.checked);
 

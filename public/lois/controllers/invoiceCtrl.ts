@@ -7,6 +7,7 @@
         to: string;
         location: string;
         toInvoice: string;
+        activeEntity: any;
 
         static $inject = ['$scope', 'Notification'];
 
@@ -118,6 +119,41 @@
                 }
             });
         };
+
+        editInvoice(e): void {
+            this.activeEntity = e;
+        }
+
+        cancelInvoice(e): void {
+            this.activeEntity = null;
+        }
+
+        updateInvoice(e): void {
+            if (!e.to || e.to == '') {
+                this.notify('warning', 'Tertagih harus diisi');
+                return;
+            }
+
+            if (!e.location || e.location == '') {
+                this.notify('warning', 'Lokasi harus diisi');
+                return;
+            }
+
+            var viewModel = {
+                invoiceId: e._id,
+                to: e.to,
+                location: e.location
+            };
+
+            var ctrl = this;
+
+            app.api.invoice.updateInvoice(viewModel).then(function (result) {
+                ctrl.notify('success', 'Proses update berhasil');
+                ctrl.filter();
+            }).catch(function (error) {
+                ctrl.notify('error', 'Proses update gagal ' + error.data);
+            });
+        }
     }
 
     app.lois.controller('invoiceCtrl', invoiceCtrl);

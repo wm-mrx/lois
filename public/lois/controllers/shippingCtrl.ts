@@ -6,12 +6,16 @@
         selectedEntity: any;
         selectedItem: any;
         printNoPrice: boolean;
+        orientation: string;
+        paper: string;
 
         static $inject = ['$scope', 'Notification'];
 
         constructor($scope, Notification) {
             super(Notification);
             this.printNoPrice = false;
+            this.orientation = 'L';
+            this.paper = 'A4';
             this.viewType = ViewType.shipping;
             this.functions.load = api.shipping.getAll;
             this.functions.get = api.shipping.get;
@@ -197,7 +201,8 @@
         print(): void {
             var ctrl = this;
 
-            var checkedEntities = this.entities.filter(function (e) { return e.checked; });
+            var checkedEntities = this.entities.filter(e => e.checked);
+
             if (checkedEntities.length === 0) {
                 this.notify('warning', 'Tidak ada item yang dipilih');
                 return;
@@ -227,7 +232,12 @@
                 viewModels.push(viewModel);
             });
 
+            var ctrl = this;
+
             app.api.shipping.getDataReport(viewModels).then(function (result) {
+
+                angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper });
+
                 app.api.reportPrint.printDeliveryOrder(result.data).then(function (buffer) {
                     var blob = new Blob([buffer.data], { type: 'application/pdf' });
                     var url = URL.createObjectURL(blob);

@@ -18,6 +18,8 @@ var app;
             function shippingCtrl($scope, Notification) {
                 var _this = _super.call(this, Notification) || this;
                 _this.printNoPrice = false;
+                _this.orientation = 'L';
+                _this.paper = 'A4';
                 _this.viewType = ViewType.shipping;
                 _this.functions.load = app.api.shipping.getAll;
                 _this.functions.get = app.api.shipping.get;
@@ -200,7 +202,9 @@ var app;
                     };
                     viewModels.push(viewModel);
                 });
+                var ctrl = this;
                 app.api.shipping.getDataReport(viewModels).then(function (result) {
+                    angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper });
                     app.api.reportPrint.printDeliveryOrder(result.data).then(function (buffer) {
                         var blob = new Blob([buffer.data], { type: 'application/pdf' });
                         var url = URL.createObjectURL(blob);
