@@ -19,6 +19,8 @@ var app;
             function invoiceCtrl($scope, Notification) {
                 var _this = _super.call(this, Notification) || this;
                 _this.tab = 'create';
+                _this.orientation = 'P';
+                _this.paper = 'A4';
                 _this.functions.load = app.api.invoice.getAll;
                 _this.functions.autocomplete = app.api.autocomplete.getAll;
                 _this.invoiceType = InvoiceType.Semua;
@@ -87,7 +89,9 @@ var app;
             };
             invoiceCtrl.prototype.print = function (entity, type) {
                 var ctrl = this;
+                angular.extend(entity, { "type": type });
                 app.api.invoice.getInvoiceReport(entity).then(function (result) {
+                    angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper });
                     if (type == 1) {
                         app.api.reportPrint.printInvoiceAll(result.data).then(function (buffer) {
                             var blob = new Blob([buffer.data], { type: 'application/pdf' });

@@ -159,14 +159,15 @@ Controller.prototype.getInvoiceReport = function (invoice, user) {
 
     var result = {
         "title": "LAPORAN TAGIHAN",
-        "template_file": "laptagihan.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
-        "invoice_no": invoice.number,
-        "invoice_date": invoice.modified.date,
+        "invoiceNumber": invoice.number,
+        "invoiceDate": invoice.modified.date,
         "user": user.name,
-        "tertagih": invoice.to,
-        "tertagih_location": invoice.location,
-        "report_data": []
+        "recipient": invoice.to,
+        "recipientLocation": invoice.location,
+        "headers": ['NO', 'TANGGAL', 'SPB NO.', 'COLI', 'KILO', 'BEA KULI', 'BEA EKSPEDISI', 'PPN 10%', 'BEA ANGKUT'],
+        "rows": []
     };
 
     return co(function* () {
@@ -182,15 +183,15 @@ Controller.prototype.getInvoiceReport = function (invoice, user) {
             var totalWeight = _.sumBy(shipping.items, 'dimensions.weight');
             var totalColli = _.sumBy(shipping.items, 'colli.quantity');
 
-            result.report_data.push({
+            result.rows.push({
                 "number": shipping.number,
-                "transaction_date": shipping.date ? shipping.date: " ",
-                "spb_no": shipping.spbNumber,
-                "destination_city": shipping.destination.name,
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
-                "bea_kuli": shipping.cost.worker,
-                "partner_fee": shipping.cost.expedition,
+                "transactionDate": shipping.date ? shipping.date: " ",
+                "spbNumber": shipping.spbNumber,
+                "destination": shipping.destination.name,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
+                "workerCost": shipping.cost.worker,
+                "partnerCost": shipping.cost.expedition,
                 "price": shipping.cost.total,
                 "ppn": shipping.cost.ppn * shipping.cost.total
             });
@@ -204,15 +205,15 @@ Controller.prototype.getInvoiceReport = function (invoice, user) {
         });
 
         var terbilang = self.getTerbilang(sumTotalCost);
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_bea_kuli'] = sumWorkerCost;
-        result['sum_partner_fee'] = sumExpeditionCost;
-        result['sum_ppn'] = sumTotalPpn;
-        result['sum_price'] = sumTotalCost;
-        result['terbilang_client'] = self.getTerbilang(sumTotalCost);
-        result['terbilang_all'] = self.getTerbilang(sumTotalCost);
-        result['terbilang_partner'] = self.getTerbilang(sumExpeditionCost);
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumWorkerCost'] = sumWorkerCost;
+        result['sumPartnerCost'] = sumExpeditionCost;
+        result['sumPpn'] = sumTotalPpn;
+        result['sumPrice'] = sumTotalCost;
+        result['terbilanClient'] = self.getTerbilang(sumTotalCost);
+        result['terbilangAll'] = self.getTerbilang(sumTotalCost);
+        result['terbilanPartner'] = self.getTerbilang(sumExpeditionCost);
         
         return result;
     });

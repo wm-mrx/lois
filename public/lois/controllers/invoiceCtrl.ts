@@ -8,12 +8,16 @@
         location: string;
         toInvoice: string;
         activeEntity: any;
+        orientation: string;
+        paper: string;
 
         static $inject = ['$scope', 'Notification'];
 
         constructor($scope, Notification) {
             super(Notification);
             this.tab = 'create';
+            this.orientation = 'P';
+            this.paper = 'A4';
             this.functions.load = api.invoice.getAll;
             this.functions.autocomplete = api.autocomplete.getAll;
             this.invoiceType = InvoiceType.Semua;
@@ -95,7 +99,11 @@
 
         print(entity, type): void {
             var ctrl = this;
+            angular.extend(entity, { "type": type });
+
             app.api.invoice.getInvoiceReport(entity).then(function (result) {
+                angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper });
+
                 if (type == 1) {
                     app.api.reportPrint.printInvoiceAll(result.data).then(function (buffer) {
                         var blob = new Blob([buffer.data], { type: 'application/pdf' });

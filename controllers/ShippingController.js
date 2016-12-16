@@ -353,8 +353,6 @@ Controller.prototype.getDataReport = function (viewModels, user) {
                 transactionDate: viewModel.transaction_date,
                 note: viewModel.note
             });
-
-            
         });
         return result;
     });

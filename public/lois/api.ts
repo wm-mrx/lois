@@ -421,7 +421,7 @@
                 "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                 "responseType": "arraybuffer"
             };
-            return app.http.post('http://lois.limassentosa.net/index.php/invoiceAll', JSON.stringify(data), config);
+            return app.http.post('http://localhost/lois-report-engine/index.php/invoiceAll', JSON.stringify(data), config);
         };
 
         static printInvoiceClient(data) {
