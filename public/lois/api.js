@@ -340,7 +340,7 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/suratbelumkembali', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/sj-balik', JSON.stringify(data), config);
             };
             reportPrint.printDeliveryList = function (data) {
                 var config = {
@@ -354,7 +354,21 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/commision', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/commision', JSON.stringify(data), config);
+            };
+            reportPrint.printGetPayOff = function (data) {
+                var config = {
+                    "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                    "responseType": "arraybuffer"
+                };
+                return app.http.post('http://localhost/lois-report-engine/index.php/pay-off', JSON.stringify(data), config);
+            };
+            reportPrint.printPartner = function (data) {
+                var config = {
+                    "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                    "responseType": "arraybuffer"
+                };
+                return app.http.post('http://localhost/lois-report-engine/index.php/partner', JSON.stringify(data), config);
             };
             reportPrint.printInvoice = function (data) {
                 var config = {

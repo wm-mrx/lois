@@ -72,6 +72,16 @@
                     this.dataFunc = api.report.getCommisionsReport;
                     this.renderFunc = api.reportPrint.printCommision;
                     break;
+                case 'Lunas':   
+                    this.functions.load = app.api.report.getPayOff;
+                    this.dataFunc = app.api.report.getPayOffReport;
+                    this.renderFunc = app.api.reportPrint.printGetPayOff;
+                    break;
+                case 'Partner':
+                    this.functions.load = app.api.report.getPartner;
+                    this.dataFunc = app.api.report.getPartnerReport;
+                    this.renderFunc = app.api.reportPrint.printPartner;
+                    break;
             }
 
             this.filters = {};

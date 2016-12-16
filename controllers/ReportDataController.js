@@ -560,10 +560,11 @@ Controller.prototype.getUnconfirmedReport = function (viewModels, user) {
     var self = this;
     var result = {
         "title": "LAPORAN SURAT JALAN BELUM KEMBALI",
-        "template_file": "lapbelumkembali.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "report_data": []
+        "headers": ['NO', 'DATE', 'SPB NO.', 'SENDER', 'RECEIVER', 'AREA', 'STATUS'],
+        "rows": []
     };
 
     return co(function* () {
@@ -572,12 +573,12 @@ Controller.prototype.getUnconfirmedReport = function (viewModels, user) {
         result['destination'] = region.name;
 
         yield* _co.coEach(viewModels, function* (viewModel) {
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
-                "transaction_date": viewModel.date,
+                "transactionDate": viewModel.date,
                 "receiver": viewModel.receiver.name,
-                "destination_city": viewModel.destination.name
+                "destination": viewModel.destination.name
             });
         });
 
@@ -724,6 +725,7 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
         "startDate": query['from'],
         "endDate": query['to'],
         "paymentStatus": query['paymentStatus'],
+        "headers": ['NO', 'DATE', 'SPB NO.', 'QTY', 'WEIGHT', 'COST', 'ADDITIONAL CHARGES', 'PORTEL FEE', 'PPH 23', 'PPN 10%', 'TOTAL'],
         "rows": []
     };
 
@@ -757,8 +759,8 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
             var pph = viewModel.cost.pph === 0.98 ? (viewModel.cost.base / viewModel.cost.pph) - viewModel.cost.base : viewModel.cost.pph * viewModel.cost.base;
             var ppn = viewModel.cost.ppn * viewModel.cost.base;
 
-            result.report_data.push({
-                "transaction_date": viewModel.date,
+            result.rows.push({
+                "transactionDate": viewModel.date,
                 "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
@@ -818,6 +820,7 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
         "location": user.location.name,
         "user": user.name,
         "startDate": query['from'],
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'DESTINATION', 'DESTINATION REGION', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'DATE'],
         "rows": []
     };
 
@@ -831,7 +834,7 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
             var contents = _.map(viewModel.items, "content");
 
-            result.report_data.push({
+            result.rows.push({
                 "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
@@ -903,6 +906,7 @@ Controller.prototype.getPartnerReport = function (viewModels, query, user) {
         "feeType": query['feeType'] == "" ? "expedition" : query['feeType'],
         "paymentStatus": query['paymentStatus'] || " ",
         "paymentDate": query['paymentDate'] || " ",
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'PARTNER', 'CODE', 'QTY', 'WEIGHT', 'PRICE', 'PAYMENT FEE', 'WORKER FEE', 'DESTINATION', 'DATE'],
         "rows": []
     };
 
@@ -917,7 +921,7 @@ Controller.prototype.getPartnerReport = function (viewModels, query, user) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
 
-            result.report_data.push({
+            result.rows.push({
                 "transactionDate": viewModel.date,
                 "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
@@ -925,10 +929,10 @@ Controller.prototype.getPartnerReport = function (viewModels, query, user) {
                 "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
                 "partner": viewModel.partner ? viewModel.partner.name : " ",
-                "paymentFee": viewModel.cost.partner,
+                "paymentFee": viewModel.cost.partner ? viewModel.cost.partner : 0,
                 "partnerCode": viewModel.returnInfo.relationCode ? viewModel.returnInfo.relationCode : " ",
                 "destination": viewModel.destination.name,
-                "workerFee": viewModel.cost.worker,
+                "workerFee": viewModel.cost.worker ? viewModel.cost.worker : 0,
             });
 
             sumTotalColli += totalColli;

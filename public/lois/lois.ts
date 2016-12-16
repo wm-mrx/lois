@@ -13,7 +13,8 @@ module app {
 
     export var http: ng.IHttpService;
     export var ngUpload;
-   
+    export var reportUrl: 'http://localhost/lois-report-engine/index.php/';
+
     lois.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         ($stateProvider, $urlRouterProvider, $locationProvider) => {
 
