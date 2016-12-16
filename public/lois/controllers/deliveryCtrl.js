@@ -16,11 +16,12 @@ var app;
         var deliveryCtrl = (function (_super) {
             __extends(deliveryCtrl, _super);
             function deliveryCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.functions.load = app.api.delivery.getAll;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.filterType = FilterType.delivery;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.functions.load = app.api.delivery.getAll;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.filterType = FilterType.delivery;
+                _this.filter();
+                return _this;
             }
             deliveryCtrl.prototype.load = function () {
                 var ctrl = this;
@@ -116,9 +117,9 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
-            deliveryCtrl.$inject = ['$scope', 'Notification'];
             return deliveryCtrl;
         }(controllers.baseCtrl));
+        deliveryCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('deliveryCtrl', deliveryCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

@@ -52,6 +52,10 @@ Controller.prototype.getAll = function (query) {
         .populate('sender destination payment.type payment.location partner items.itemType items.packingType').lean().exec();
 };
 
+Controller.prototype.getItem = function (itemId) {
+    
+}
+
 Controller.prototype.add = function (user) {
     var self = this;
 

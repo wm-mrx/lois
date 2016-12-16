@@ -16,10 +16,11 @@ var app;
         var homeCtrl = (function (_super) {
             __extends(homeCtrl, _super);
             function homeCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.viewType = ViewType.summary;
-                this.loadOverall();
-                this.onSummaryChanges('destination');
+                var _this = _super.call(this, Notification) || this;
+                _this.viewType = ViewType.summary;
+                _this.loadOverall();
+                _this.onSummaryChanges('destination');
+                return _this;
             }
             homeCtrl.prototype.loadOverall = function () {
                 var ctrl = this;
@@ -70,9 +71,9 @@ var app;
                 this.viewType = ViewType.summary;
                 this.onSummaryChanges(this.summary);
             };
-            homeCtrl.$inject = ['$scope', 'Notification'];
             return homeCtrl;
         }(controllers.baseCtrl));
+        homeCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('homeCtrl', homeCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

@@ -17,12 +17,13 @@ var app;
         var invoiceCtrl = (function (_super) {
             __extends(invoiceCtrl, _super);
             function invoiceCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.tab = 'create';
-                this.functions.load = app.api.invoice.getAll;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.invoiceType = InvoiceType.Semua;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.tab = 'create';
+                _this.functions.load = app.api.invoice.getAll;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.invoiceType = InvoiceType.Semua;
+                _this.filter();
+                return _this;
             }
             invoiceCtrl.prototype.onTabChange = function (tab) {
                 this.tab = tab;
@@ -111,9 +112,9 @@ var app;
                 });
             };
             ;
-            invoiceCtrl.$inject = ['$scope', 'Notification'];
             return invoiceCtrl;
         }(controllers.baseCtrl));
+        invoiceCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('invoiceCtrl', invoiceCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

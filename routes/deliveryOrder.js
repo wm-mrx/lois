@@ -19,6 +19,22 @@ router.get(config.api + 'deliveryOrder/getAll', auth.isAuthenticated, function (
     });
 });
 
+router.get(config.api + 'deliveryOrder/getRecapData', auth.isAuthenticated, function (req, res) {
+    controller.getRecapData(req.query.shippingId).then(function (result) {
+        return res.status(200).send(result);
+    }).catch(function (error) {
+        return res.status(500).send(error.message);
+    });
+});
+
+router.get(config.api + 'deliveryOrder/getDeliveryData', auth.isAuthenticated, function (req, res) {
+    controller.getDeliveryData(req.query.shippingId).then(function (result) {
+        return res.status(200).send(result);
+    }).catch(function (error) {
+        return res.status(500).send(error.message);
+    });
+});
+
 router.post(config.api + 'deliveryOrder/getDataReport', auth.isAuthenticated, function (req, res) {
     var result = controller.getDataReport(req.body);
     return res.status(200).send(result);

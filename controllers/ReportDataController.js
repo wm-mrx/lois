@@ -238,14 +238,14 @@ Controller.prototype.getRecapitulationsReport = function (viewModels, query, use
 
     var result = {
         "title": "LAPORAN REKAP",
-        "template_file": "laprekap.xlsx",
         "location": user.location.name,
-        "train_type": "",
+        "trainType": "",
         "user": user.name,
         "date": query['recapDate'] ? query['recapDate'] : query['departureDate'],
-        "recap_driver": null,
-        "recap_car": null,
-        "report_data": []
+        "driver": null,
+        "car": null,
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
+        "rows": []
     };
 
     return co(function* () {
@@ -255,7 +255,7 @@ Controller.prototype.getRecapitulationsReport = function (viewModels, query, use
         var totalPrice = 0;
 
         var trainType = yield schemas.trainTypes.findOne({ "_id": ObjectId(viewModels[0].items.recapitulations.trainType) }).exec();
-        result['train_type'] = trainType.name;
+        result['trainType'] = trainType.name;
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var driver = yield schemas.drivers.findOne({ _id: ObjectId(viewModel.items.recapitulations.driver) });
@@ -285,24 +285,24 @@ Controller.prototype.getRecapitulationsReport = function (viewModels, query, use
             }
 
             if (driver)
-                result.recap_driver = driver.name;
+                result.driver = driver.name;
 
-            result.recap_car = viewModel.items.recapitulations.vehicleNumber;
+            result.car = viewModel.items.recapitulations.vehicleNumber;
 
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender[0].name,
                 "receiver": viewModel.receiver.name,
                 "content": viewModel.items.content,
-                "total_coli": viewModel.items.colli.quantity,
-                "coli": viewModel.items.recapitulations.quantity,
+                "totalColli": viewModel.items.colli.quantity,
+                "colli": viewModel.items.recapitulations.quantity,
                 "weight": viewModel.items.recapitulations.weight,
                 "price": price,
-                "payment_method": paymentType.name,
-                "recap_limas_color": viewModel.items.recapitulations.limasColor,
-                "recap_relation_color": viewModel.items.recapitulations.relationColor,
-                "transaction_date": viewModel.date,
-                "destination_city": viewModel.destination[0].name
+                "paymentMethod": paymentType.name,
+                "recapLimasColor": viewModel.items.recapitulations.limasColor,
+                "recapRelationColor": viewModel.items.recapitulations.relationColor,
+                "transactionDate": viewModel.date,
+                "destination": viewModel.destination[0].name
             });
 
             totalColliQuantity += _.parseInt(viewModel.items.colli.quantity);
@@ -311,10 +311,10 @@ Controller.prototype.getRecapitulationsReport = function (viewModels, query, use
             totalPrice += parseFloat(price);
         });
 
-        result['sum_total_coli'] = totalColliQuantity;
-        result['sum_coli'] = totalRecappedColli;
-        result['sum_weight'] = totalWeight;
-        result['sum_price'] = totalPrice;
+        result['sumTotalColli'] = totalColliQuantity;
+        result['sumColli'] = totalRecappedColli;
+        result['sumWeight'] = totalWeight;
+        result['sumPrice'] = totalPrice;
         return result;
     });
 };
@@ -574,8 +574,7 @@ Controller.prototype.getUnconfirmedReport = function (viewModels, user) {
 };
 
 Controller.prototype.getDeliveryList = function (query) {
-    return co(function* () {
-               
+    return co(function* () {      
         var limit = query['limit'] ? query['limit'] : 10;
         var skip = query['skip'] ? query['skip'] : 0;
         var parameters = {};
@@ -624,12 +623,13 @@ Controller.prototype.getDeliveryListReport = function (viewModels, query, user) 
 
     var result = {
         "title": "LAPORAN DAFTAR KIRIM",
-        "template_file": "lapdaftarkirim.xlsx",
+        "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "start_date": query['from'] ? query['from'] : " ",
-        "end_date": query['to'] ? query['to'] : " ",
-        "report_data": []
+        "startDate": query['from'] ? query['from'] : " ",
+        "endDate": query['to'] ? query['to'] : " ",
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'REGION', 'DATE'],
+        "rows": []
     };
 
     return co(function* () {
@@ -642,17 +642,17 @@ Controller.prototype.getDeliveryListReport = function (viewModels, query, user) 
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
             var contents = _.map(viewModel.items, "content");
 
-            result.report_data.push({
-                "spb_no": viewModel.spbNumber,
+            result.rows.push({
+                "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name,
                 "receiver": viewModel.receiver.name,
                 "content": contents.length > 0 ? contents.join(', ') : " ",
-                "total_coli": totalColli,
-                "total_weight": totalWeight,
+                "totalColli": totalColli,
+                "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
-                "payment_method": viewModel.payment.type.name,
-                "destination_region": viewModel.regions.destination.name,
-                "transaction_date": viewModel.date,
+                "paymentMethod": viewModel.payment.type.name,
+                "destinationRegion": viewModel.regions.destination.name,
+                "transactionDate": viewModel.date,
             });
 
             sumTotalColli += totalColli;
@@ -660,9 +660,9 @@ Controller.prototype.getDeliveryListReport = function (viewModels, query, user) 
             sumPrice += viewModel.cost.total;
         });
 
-        result['sum_total_coli'] = sumTotalColli;
-        result['sum_total_weight'] = sumTotalWeight;
-        result['sum_price'] = sumPrice;
+        result['sumTotalColli'] = sumTotalColli;
+        result['sumTotalWeight'] = sumTotalWeight;
+        result['sumPrice'] = sumPrice;
 
         return result;
     });

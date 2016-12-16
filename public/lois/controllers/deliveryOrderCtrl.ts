@@ -1,15 +1,18 @@
 ﻿module app.controllers {
-    enum ViewType { shipping = 1, item = 2 };
+    enum ViewType { deliveryOrder = 1, itemInformation = 2 };
 
     class deliveryOrderCtrl extends baseCtrl {
         viewType: ViewType;
+        recapitulationInfo: any[];
+        deliveryInfo: any[];
+
         selectedEntity: any;
 
         static $inject = ['$scope', 'Notification'];
 
         constructor($scope, Notification) {
             super(Notification);
-            this.viewType = ViewType.shipping;
+            this.viewType = ViewType.deliveryOrder;
             this.functions.load = api.deliveryOrder.getAll;
             this.functions.autocomplete = api.autocomplete.getAll;
             this.filter();
@@ -30,14 +33,28 @@
             });
         }
 
-        viewDetail(entity: any): void {
-            this.viewType = ViewType.item;
-            this.selectedEntity = entity;
+        viewDeliveryOrder(): void {
+            this.viewType = ViewType.deliveryOrder;
+            this.recapitulationInfo = [];
+            this.deliveryInfo = [];
         }
 
-        viewShipping(): void {
-            this.viewType = ViewType.shipping;
-            this.selectedEntity = null;
+        viewItemInfo(shipping, item): void {
+            api.deliveryOrder.getRecapData(shipping._id).then(res => {
+                var data = <Array<any>>res.data;
+                this.recapitulationInfo = data.filter(e => e.items._id.toString() === item._id);
+            }).finally(() => {
+                this.viewType = ViewType.itemInformation;
+            });
+
+            api.deliveryOrder.getDeliveryData(shipping._id).then(res => {
+                var data = <Array<any>>res.data;
+                this.deliveryInfo = data.filter(e => e.items._id.toString() === item._id);
+            }).finally(() => {
+                this.viewType = ViewType.itemInformation;
+            });
+
+            this.selectedEntity = shipping;
         }
     }
 

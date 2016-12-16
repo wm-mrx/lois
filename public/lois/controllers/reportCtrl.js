@@ -10,11 +10,14 @@ var app;
         var reportCtrl = (function (_super) {
             __extends(reportCtrl, _super);
             function reportCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.printNoPrice = false;
-                this.showToolbar = true;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.init();
+                var _this = _super.call(this, Notification) || this;
+                _this.printNoPrice = false;
+                _this.showToolbar = true;
+                _this.orientation = 'L';
+                _this.paper = 'A4';
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.init();
+                return _this;
             }
             reportCtrl.prototype.init = function () {
                 var ctrl = this;
@@ -72,6 +75,7 @@ var app;
                 this.filter();
             };
             reportCtrl.prototype.print = function () {
+                var _this = this;
                 var checkedEntities = this.entities.filter(function (e) { return e.checked; });
                 if (checkedEntities.length === 0) {
                     this.notify('warning', 'Tidak ada data yang pilih');
@@ -83,22 +87,22 @@ var app;
                     else
                         this.renderFunc = app.api.reportPrint.printRecapitulation;
                 }
-                var ctrl = this;
-                ctrl.loadingData = true;
-                var dataFunction = ctrl.dataFunc(checkedEntities, ctrl.query);
+                this.loadingData = true;
+                var dataFunction = this.dataFunc(checkedEntities, this.query);
                 dataFunction.then(function (result) {
-                    ctrl.renderFunc(result.data).then(function (buffer) {
+                    angular.extend(result.data, { "orientation": _this.orientation, "unit": 'mm', "paper": _this.paper });
+                    _this.renderFunc(result.data).then(function (buffer) {
                         var blob = new Blob([buffer.data], { type: 'application/pdf' });
                         var url = URL.createObjectURL(blob);
                         window.open(url, '_blank');
                     });
                 }).finally(function () {
-                    ctrl.loadingData = false;
+                    _this.loadingData = false;
                 });
             };
-            reportCtrl.$inject = ['$scope', 'Notification'];
             return reportCtrl;
         }(controllers.baseCtrl));
+        reportCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('reportCtrl', reportCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

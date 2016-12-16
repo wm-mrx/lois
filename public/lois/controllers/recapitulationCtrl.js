@@ -16,11 +16,12 @@ var app;
         var recapitulationCtrl = (function (_super) {
             __extends(recapitulationCtrl, _super);
             function recapitulationCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.functions.load = app.api.recapitulation.getAll;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.filterType = FilterType.recap;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.functions.load = app.api.recapitulation.getAll;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.filterType = FilterType.recap;
+                _this.filter();
+                return _this;
             }
             recapitulationCtrl.prototype.load = function () {
                 var ctrl = this;
@@ -127,9 +128,9 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
-            recapitulationCtrl.$inject = ['$scope', 'Notification'];
             return recapitulationCtrl;
         }(controllers.baseCtrl));
+        recapitulationCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('recapitulationCtrl', recapitulationCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

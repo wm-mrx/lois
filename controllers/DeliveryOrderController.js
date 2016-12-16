@@ -43,6 +43,25 @@ Controller.prototype.getAll = function (query) {
         .populate('sender destination payment.type items.itemType items.packingType').skip(skip).limit(limit).lean().exec();
 };
 
+Controller.prototype.getRecapData = function (shippingId) {
+    return schemas.shippings.aggregate([
+        { "$match": { "_id": ObjectId(shippingId) } },
+        { "$unwind": "$items" },
+        { "$unwind": '$items.recapitulations' },
+        { "$lookup": { "from": "trainTypes", "localField": "items.recapitulations.trainType", "foreignField": "_id", "as": "trainType" } },
+        { "$lookup": { "from": "drivers", "localField": "items.recapitulations.driver", "foreignField": "_id", "as": "driver" } }
+    ]).exec();
+}
+
+Controller.prototype.getDeliveryData = function (shippingId) {
+    return schemas.shippings.aggregate([
+        { "$match": { "_id": ObjectId(shippingId) } },
+        { "$unwind": "$items" },
+        { "$unwind": '$items.deliveries' },
+        { "$lookup": { "from": "drivers", "localField": "items.deliveries.driver", "foreignField": "_id", "as": "driver" } }
+    ]).exec();
+}
+
 Controller.prototype.getDataReport = function (shipping) {
     var totalColli = 0;
 

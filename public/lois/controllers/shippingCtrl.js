@@ -16,14 +16,15 @@ var app;
         var shippingCtrl = (function (_super) {
             __extends(shippingCtrl, _super);
             function shippingCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.printNoPrice = false;
-                this.viewType = ViewType.shipping;
-                this.functions.load = app.api.shipping.getAll;
-                this.functions.get = app.api.shipping.get;
-                this.functions.save = app.api.shipping.save;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.printNoPrice = false;
+                _this.viewType = ViewType.shipping;
+                _this.functions.load = app.api.shipping.getAll;
+                _this.functions.get = app.api.shipping.get;
+                _this.functions.save = app.api.shipping.save;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.filter();
+                return _this;
             }
             shippingCtrl.prototype.load = function () {
                 var ctrl = this;
@@ -209,9 +210,9 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
-            shippingCtrl.$inject = ['$scope', 'Notification'];
             return shippingCtrl;
         }(controllers.baseCtrl));
+        shippingCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('shippingCtrl', shippingCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

@@ -10,17 +10,18 @@ var app;
         var notificationCtrl = (function (_super) {
             __extends(notificationCtrl, _super);
             function notificationCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.functions.load = app.api.notification.getAll;
-                this.functions.delete = app.api.notification.delete;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.functions.load = app.api.notification.getAll;
+                _this.functions.delete = app.api.notification.delete;
+                _this.filter();
+                return _this;
             }
             notificationCtrl.prototype.viewFile = function (file) {
                 window.open('berita_acara/' + file, '_blank');
             };
-            notificationCtrl.$inject = ['$scope', 'Notification'];
             return notificationCtrl;
         }(controllers.baseCtrl));
+        notificationCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('notificationCtrl', notificationCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

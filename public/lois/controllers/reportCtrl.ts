@@ -5,6 +5,8 @@
         renderFunc: Function;
         dataFunc: Function;
         printNoPrice: boolean;
+        orientation: string;
+        paper: string;
 
         static $inject = ['$scope', 'Notification'];
 
@@ -12,6 +14,8 @@
             super(Notification);
             this.printNoPrice = false;
             this.showToolbar = true;
+            this.orientation = 'L';
+            this.paper = 'A4';
             this.functions.autocomplete = api.autocomplete.getAll;
             this.init();
         }
@@ -90,19 +94,20 @@
                     this.renderFunc = app.api.reportPrint.printRecapitulation
             }
   
-            var ctrl = this;
-            ctrl.loadingData = true;
+            this.loadingData = true;
 
-            var dataFunction = ctrl.dataFunc(checkedEntities, ctrl.query); 
+            var dataFunction = this.dataFunc(checkedEntities, this.query); 
 
             dataFunction.then(result => {
-                ctrl.renderFunc(result.data).then(buffer => {
+                angular.extend(result.data, { "orientation": this.orientation, "unit": 'mm', "paper": this.paper });
+
+                this.renderFunc(result.data).then(buffer => {
                     var blob = new Blob([buffer.data], { type: 'application/pdf' });
                     var url = URL.createObjectURL(blob);
                     window.open(url, '_blank');
                 });
             }).finally(() => {
-                ctrl.loadingData = false;
+                this.loadingData = false;
             });
         }
     }

@@ -9,18 +9,19 @@ var app;
     (function (controllers) {
         var ViewType;
         (function (ViewType) {
-            ViewType[ViewType["shipping"] = 1] = "shipping";
-            ViewType[ViewType["item"] = 2] = "item";
+            ViewType[ViewType["deliveryOrder"] = 1] = "deliveryOrder";
+            ViewType[ViewType["itemInformation"] = 2] = "itemInformation";
         })(ViewType || (ViewType = {}));
         ;
         var deliveryOrderCtrl = (function (_super) {
             __extends(deliveryOrderCtrl, _super);
             function deliveryOrderCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.viewType = ViewType.shipping;
-                this.functions.load = app.api.deliveryOrder.getAll;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.viewType = ViewType.deliveryOrder;
+                _this.functions.load = app.api.deliveryOrder.getAll;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.filter();
+                return _this;
             }
             deliveryOrderCtrl.prototype.print = function (entity) {
                 var ctrl = this;
@@ -35,17 +36,30 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
-            deliveryOrderCtrl.prototype.viewDetail = function (entity) {
-                this.viewType = ViewType.item;
-                this.selectedEntity = entity;
+            deliveryOrderCtrl.prototype.viewDeliveryOrder = function () {
+                this.viewType = ViewType.deliveryOrder;
+                this.recapitulationInfo = [];
+                this.deliveryInfo = [];
             };
-            deliveryOrderCtrl.prototype.viewShipping = function () {
-                this.viewType = ViewType.shipping;
-                this.selectedEntity = null;
+            deliveryOrderCtrl.prototype.viewItemInfo = function (shipping, item) {
+                var _this = this;
+                app.api.deliveryOrder.getRecapData(shipping._id).then(function (res) {
+                    var data = res.data;
+                    _this.recapitulationInfo = data.filter(function (e) { return e.items._id.toString() === item._id; });
+                }).finally(function () {
+                    _this.viewType = ViewType.itemInformation;
+                });
+                app.api.deliveryOrder.getDeliveryData(shipping._id).then(function (res) {
+                    var data = res.data;
+                    _this.deliveryInfo = data.filter(function (e) { return e.items._id.toString() === item._id; });
+                }).finally(function () {
+                    _this.viewType = ViewType.itemInformation;
+                });
+                this.selectedEntity = shipping;
             };
-            deliveryOrderCtrl.$inject = ['$scope', 'Notification'];
             return deliveryOrderCtrl;
         }(controllers.baseCtrl));
+        deliveryOrderCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('deliveryOrderCtrl', deliveryOrderCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

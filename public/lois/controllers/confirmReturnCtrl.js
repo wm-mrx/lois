@@ -10,11 +10,12 @@ var app;
         var confirmReturnCtrl = (function (_super) {
             __extends(confirmReturnCtrl, _super);
             function confirmReturnCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.showToolbar = true;
-                this.functions.load = app.api._return.getAllConfirm;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.showToolbar = true;
+                _this.functions.load = app.api._return.getAllConfirm;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.filter();
+                return _this;
             }
             confirmReturnCtrl.prototype.process = function () {
                 var checkedEntities = this.entities.filter(function (e) { return e.checked; });
@@ -30,9 +31,9 @@ var app;
                     ctrl.notify('error', 'Konfirmasi gagal ' + error.data);
                 });
             };
-            confirmReturnCtrl.$inject = ['$scope', 'Notification'];
             return confirmReturnCtrl;
         }(controllers.baseCtrl));
+        confirmReturnCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('confirmReturnCtrl', confirmReturnCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

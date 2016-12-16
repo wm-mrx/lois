@@ -16,11 +16,12 @@ var app;
         var paymentCtrl = (function (_super) {
             __extends(paymentCtrl, _super);
             function paymentCtrl($scope, Notification) {
-                _super.call(this, Notification);
-                this.viewType = ViewType.payment;
-                this.functions.load = app.api.payment.getAll;
-                this.functions.autocomplete = app.api.autocomplete.getAll;
-                this.filter();
+                var _this = _super.call(this, Notification) || this;
+                _this.viewType = ViewType.payment;
+                _this.functions.load = app.api.payment.getAll;
+                _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.filter();
+                return _this;
             }
             paymentCtrl.prototype.pay = function () {
                 var _this = this;
@@ -60,9 +61,9 @@ var app;
                 this.viewType = ViewType.payment;
                 this.selectedEntity = null;
             };
-            paymentCtrl.$inject = ['$scope', 'Notification'];
             return paymentCtrl;
         }(controllers.baseCtrl));
+        paymentCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('paymentCtrl', paymentCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
