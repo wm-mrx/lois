@@ -89,30 +89,14 @@ var app;
             };
             invoiceCtrl.prototype.print = function (entity, type) {
                 var ctrl = this;
-                angular.extend(entity, { "type": type });
+                angular.extend(entity, { "typeNum": type });
                 app.api.invoice.getInvoiceReport(entity).then(function (result) {
-                    angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper });
-                    if (type == 1) {
-                        app.api.reportPrint.printInvoiceAll(result.data).then(function (buffer) {
-                            var blob = new Blob([buffer.data], { type: 'application/pdf' });
-                            var url = URL.createObjectURL(blob);
-                            window.open(url, '_blank');
-                        });
-                    }
-                    else if (type == 2) {
-                        app.api.reportPrint.printInvoiceClient(result.data).then(function (buffer) {
-                            var blob = new Blob([buffer.data], { type: 'application/pdf' });
-                            var url = URL.createObjectURL(blob);
-                            window.open(url, '_blank');
-                        });
-                    }
-                    else if (type == 3) {
-                        app.api.reportPrint.printInvoicePartner(result.data).then(function (buffer) {
-                            var blob = new Blob([buffer.data], { type: 'application/pdf' });
-                            var url = URL.createObjectURL(blob);
-                            window.open(url, '_blank');
-                        });
-                    }
+                    angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper, "typeNum": type });
+                    app.api.reportPrint.printInvoice(result.data).then(function (buffer) {
+                        var blob = new Blob([buffer.data], { type: 'application/pdf' });
+                        var url = URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                    });
                 });
             };
             ;

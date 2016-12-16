@@ -166,9 +166,16 @@ Controller.prototype.getInvoiceReport = function (invoice, user) {
         "user": user.name,
         "recipient": invoice.to,
         "recipientLocation": invoice.location,
-        "headers": ['NO', 'TANGGAL', 'SPB NO.', 'COLI', 'KILO', 'BEA KULI', 'BEA EKSPEDISI', 'PPN 10%', 'BEA ANGKUT'],
+        "headers": [],
         "rows": []
     };
+
+    if (invoice.typeNum === 1)
+        result.headers = ['NO', 'TANGGAL', 'SPB NO.', 'COLI', 'KILO', 'BEA KULI', 'BEA EKSPEDISI', 'PPN 10%', 'BEA ANGKUT'];
+    else if (invoice.typeNum === 2)
+        result.headers = ['NO', 'TANGGAL', 'SPB NO.', 'COLI', 'KILO', 'BEA KULI', 'PPN 10%', 'BEA ANGKUT'];
+    else if (invoice.typeNum === 3)
+        result.headers = ['NO', 'TANGGAL', 'SPB NO.', 'COLI', 'KILO', 'BEA KULI', 'BEA EKSPEDISI'];
 
     return co(function* () {
         var sumTotalColli = 0;
@@ -211,9 +218,9 @@ Controller.prototype.getInvoiceReport = function (invoice, user) {
         result['sumPartnerCost'] = sumExpeditionCost;
         result['sumPpn'] = sumTotalPpn;
         result['sumPrice'] = sumTotalCost;
-        result['terbilanClient'] = self.getTerbilang(sumTotalCost);
+        result['terbilangClient'] = self.getTerbilang(sumTotalCost);
         result['terbilangAll'] = self.getTerbilang(sumTotalCost);
-        result['terbilanPartner'] = self.getTerbilang(sumExpeditionCost);
+        result['terbilangPartner'] = self.getTerbilang(sumExpeditionCost);
         
         return result;
     });

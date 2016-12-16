@@ -382,16 +382,8 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://limassentosa.net:8000/report-engine/invoice', JSON.stringify(data), config);
+                return app.http.post('http://localhost/lois-report-engine/index.php/invoice', JSON.stringify(data), config);
             };
-            reportPrint.printInvoiceAll = function (data) {
-                var config = {
-                    "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                    "responseType": "arraybuffer"
-                };
-                return app.http.post('http://localhost/lois-report-engine/index.php/invoiceAll', JSON.stringify(data), config);
-            };
-            ;
             reportPrint.printInvoiceClient = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
