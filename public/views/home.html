@@ -1,8 +1,10 @@
 ﻿<section id="widget-grid">
     <div class="row">
-
         <div class="col-xs-12 col-sm-5 col-md-5 col-lg-12">
             <ul id="sparks" class="">
+                <li class="sparks-info">
+                    <h5> Tanggal <span class="txt-color-blue">{{ctrl.currentDate | date: 'yyyy-MM-dd'}}</span></h5>
+                </li>
                 <li class="sparks-info">
                     <h5> Bea Angkut <span class="txt-color-blue">{{ctrl.overall[0].price | currency: 'Rp. ' : 2}}</span></h5>
                 </li>
@@ -17,6 +19,7 @@
                 </li>
             </ul>
         </div>
+
         <article class="col col-sm-12 col-md-12 col-lg-12" ng-show="ctrl.viewType == 1">
             <div class="jarviswidget jarviswidget-color-blueDark" role="widget">
                 <header role="heading" data-block="header">
@@ -53,15 +56,36 @@
                                 <span class="hidden-mobile hidden-tablet">Regional</span>
                             </a>
                         </li>
+                        <li>
+                            <a data-toggle="tab" href="#" ng-click="ctrl.onSummaryChanges('priceBar')">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span class="hidden-mobile hidden-tablet">Bar Harga</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#" ng-click="ctrl.onSummaryChanges('colliBar')">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span class="hidden-mobile hidden-tablet">Bar Coli</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#" ng-click="ctrl.onSummaryChanges('weightBar')">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span class="hidden-mobile hidden-tablet">Bar Berat</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#" ng-click="ctrl.onSummaryChanges('shippingBar')">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span class="hidden-mobile hidden-tablet">Bar Transaksi</span>
+                            </a>
+                        </li>
                     </ul>
                 </header>
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                    </div>
+                    <div class="jarviswidget-editbox"></div>
                     <div class="widget-body no-padding" data-block="widget-content">
-                        <div class="widget-body-toolbar" data-block="toolbar">
+                        <div class="widget-body-toolbar" data-block="toolbar" ng-show="ctrl.summaryType == 1">
                             <form class="smart-form">
                                 <fieldset>
                                     <div class="row">
@@ -69,8 +93,7 @@
                                             <label class="input">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                    <input datepicker class="form-control" placeholder="Tanggal"
-                                                           id="summary-date" type="text" ng-model="ctrl.filters.date" />
+                                                    <input datepicker class="form-control" placeholder="Tanggal" id="summary-date" type="text" ng-model="ctrl.filters.date" />
                                                 </div>
                                             </label>
                                         </section>
@@ -78,7 +101,7 @@
                                 </fieldset>
                             </form>
                         </div>
-                        <div class="widget-body-toolbar">
+                        <div class="widget-body-toolbar" ng-show="ctrl.summaryType == 1">
                             <div class="row">
                                 <div class="col-xs-9 col-sm-5 col-md-5 col-lg-6">
                                     <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
@@ -99,7 +122,7 @@
                             </div>
                         </div>
                         <div class="tab-content">
-                            <div class="table-responsive">
+                            <div class="table-responsive" ng-show="ctrl.summaryType == 1">
                                 <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
                                     <thead>
                                         <tr style="color:black;">
@@ -128,8 +151,13 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <highchart ng-if="ctrl.summaryType == 2 && ctrl.chartType == 1" config="ctrl.chartConfig[ctrl.chartType]"></highchart>
+                            <highchart ng-if="ctrl.summaryType == 2 && ctrl.chartType == 2" config="ctrl.chartConfig[ctrl.chartType]"></highchart>
+                            <highchart ng-if="ctrl.summaryType == 2 && ctrl.chartType == 3" config="ctrl.chartConfig[ctrl.chartType]"></highchart>
+                            <highchart ng-if="ctrl.summaryType == 2 && ctrl.chartType == 4" config="ctrl.chartConfig[ctrl.chartType]"></highchart>
+
                         </div>
-                        <div class="widget-footer">
+                        <div class="widget-footer" ng-show="ctrl.summaryType == 1">
                             <div class="input-group">
                                 <button ng-disabled="(ctrl.paging.page) == 1" href="#" class="btn btn-link" ng-click="ctrl.prev()">
                                     <i class="fa fa-backward"></i>
@@ -144,6 +172,7 @@
                 </div>
             </div>
         </article>
+
         <article class="col col-sm-12 col-md-12 col-lg-12" ng-show="ctrl.viewType == 2">
             <div class="jarviswidget jarviswidget-color-blueDark" role="widget">
                 <header role="heading" data-block="header">
@@ -249,4 +278,5 @@
             </div>
         </article>
     </div>
+   
 </section>

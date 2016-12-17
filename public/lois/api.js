@@ -62,6 +62,9 @@ var app;
             home.getOverall = function (query) {
                 return app.http.get('/lois/api/home/getOverall?query=' + JSON.stringify(query));
             };
+            home.getOverallbyDate = function (from, to) {
+                return app.http.get('/lois/api/home/getOverallbyDate?from=' + from + '&to=' + to);
+            };
             home.getDestinations = function (query) {
                 return app.http.get('/lois/api/home/getDestinations?query=' + JSON.stringify(query));
             };

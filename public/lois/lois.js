@@ -7,7 +7,8 @@ var app;
         'ui-notification',
         'ui.bootstrap',
         'angular-blocks',
-        'bw.paging']);
+        'bw.paging',
+        'highcharts-ng']);
     app.lois.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         function ($stateProvider, $urlRouterProvider, $locationProvider) {
             var baseUrl = '/lois';

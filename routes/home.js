@@ -29,6 +29,14 @@ router.get(config.api + 'home/getOverall', auth.isAuthenticated, function (req, 
     });
 });
 
+router.get(config.api + 'home/getOverallByDate', auth.isAuthenticated, function (req, res) {
+    controller.getOverallByDate(req.session.user.location._id, req.query.from, req.query.to).then(function (result) {
+        return res.status(200).send(result);
+    }).catch(function (error) {
+        return res.status(500).send(error.message);
+    });
+});
+
 router.get(config.api + 'home/getDestinations', auth.isAuthenticated, function (req, res) {
     var query = JSON.parse(req.query['query']);
     query['location'] = req.session.user.location._id;

@@ -9,7 +9,8 @@ module app {
         'ui-notification',
         'ui.bootstrap',
         'angular-blocks',
-        'bw.paging']);
+        'bw.paging',
+        'highcharts-ng']);
 
     export var http: ng.IHttpService;
     export var ngUpload;

@@ -29,6 +29,26 @@ Controller.prototype.getOverall = function (query) {
     ]).exec();
 };
 
+Controller.prototype.getOverallByDate = function (inputLocationId, from, to) {
+    var parameters = { "inputLocation": ObjectId(inputLocationId) };
+
+    parameters['date'] = { "$gte": date.createLower(from), "$lte": date.createUpper(to) };
+
+    return schemas.shippings.aggregate([
+        { "$match": parameters },
+        { "$unwind": "$items" },
+        {
+            "$group": {
+                "_id": "_id",
+                "colli": { "$sum": "$items.colli.quantity" },
+                "weight": { "$sum": "$items.dimensions.weight" },
+                "price": { "$sum": "$cost.total" },
+                "shippings": { "$sum": 1 }
+            }
+        }
+    ]).exec();
+}
+
 Controller.prototype.getDestinations = function (query) {
     var limit = query['limit'] ? query['limit'] : 10;
     var skip = query['skip'] ? query['skip'] : 0;
