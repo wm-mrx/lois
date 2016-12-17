@@ -10,6 +10,8 @@
         activeEntity: any;
         orientation: string;
         paper: string;
+        selectedEntity: any;
+        type: any;
 
         static $inject = ['$scope', 'Notification'];
 
@@ -97,12 +99,12 @@
             });
         }
 
-        print(entity, type): void {
+        print(): void {
             var ctrl = this;
-            angular.extend(entity, { "typeNum": type });
+            angular.extend(this.selectedEntity, { "typeNum": this.type });
 
-            app.api.invoice.getInvoiceReport(entity).then(function (result) {
-                angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper, "typeNum": type });
+            app.api.invoice.getInvoiceReport(this.selectedEntity).then((result) => {
+                angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper, "typeNum": ctrl.type });
 
                 app.api.reportPrint.printInvoice(result.data).then(function (buffer) {
                     var blob = new Blob([buffer.data], { type: 'application/pdf' });
@@ -145,6 +147,12 @@
             }).catch(function (error) {
                 ctrl.notify('error', 'Proses update gagal ' + error.data);
             });
+        }
+
+        openPrintOption(entity, type): void {
+            this.selectedEntity = entity;
+            this.type = type;
+            $('#print-option-modal')['modal']('show');
         }
     }
 

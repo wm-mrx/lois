@@ -87,11 +87,11 @@ var app;
                     ctrl.notify('error', 'Tagihan gagal dipindahkan ' + error.data);
                 });
             };
-            invoiceCtrl.prototype.print = function (entity, type) {
+            invoiceCtrl.prototype.print = function () {
                 var ctrl = this;
-                angular.extend(entity, { "typeNum": type });
-                app.api.invoice.getInvoiceReport(entity).then(function (result) {
-                    angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper, "typeNum": type });
+                angular.extend(this.selectedEntity, { "typeNum": this.type });
+                app.api.invoice.getInvoiceReport(this.selectedEntity).then(function (result) {
+                    angular.extend(result.data, { "orientation": ctrl.orientation, "unit": 'mm', "paper": ctrl.paper, "typeNum": ctrl.type });
                     app.api.reportPrint.printInvoice(result.data).then(function (buffer) {
                         var blob = new Blob([buffer.data], { type: 'application/pdf' });
                         var url = URL.createObjectURL(blob);
@@ -127,6 +127,11 @@ var app;
                 }).catch(function (error) {
                     ctrl.notify('error', 'Proses update gagal ' + error.data);
                 });
+            };
+            invoiceCtrl.prototype.openPrintOption = function (entity, type) {
+                this.selectedEntity = entity;
+                this.type = type;
+                $('#print-option-modal')['modal']('show');
             };
             return invoiceCtrl;
         }(controllers.baseCtrl));

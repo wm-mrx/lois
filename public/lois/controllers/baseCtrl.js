@@ -116,6 +116,12 @@ var app;
                     return result.data;
                 });
             };
+            baseCtrl.prototype.openPrintOption = function (entity, type) {
+                $('#print-option-modal')['modal']('show');
+            };
+            baseCtrl.prototype.closePrintOption = function () {
+                $('#print-option-modal')['modal']('hide');
+            };
             return baseCtrl;
         }());
         controllers.baseCtrl = baseCtrl;

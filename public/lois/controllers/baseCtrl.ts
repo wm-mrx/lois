@@ -144,5 +144,13 @@
                 return result.data;
             });
         }
+
+        openPrintOption(entity, type): void {
+            $('#print-option-modal')['modal']('show');
+        }
+
+        closePrintOption(): void {
+            $('#print-option-modal')['modal']('hide');
+        }
     }
 }

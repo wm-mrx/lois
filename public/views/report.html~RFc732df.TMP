@@ -93,6 +93,16 @@
                                                         </div>
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -103,7 +113,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -233,6 +243,16 @@
                                                         </div>
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -243,7 +263,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -404,6 +424,16 @@
                                                         <input type="text" placeholder="Penerima" ng-model="ctrl.filters.receiverName" />
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -414,7 +444,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -549,6 +579,16 @@
                                                         </div>
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -559,7 +599,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -709,6 +749,16 @@
                                                         </div>
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -719,7 +769,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                             &nbsp;
@@ -866,7 +916,17 @@
                                                                    id="to-transaction-date-delivery" type="text" ng-model="ctrl.filters.to" />
                                                         </div>
                                                     </label>
-                                                </section>  
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -877,7 +937,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -1015,6 +1075,16 @@
                                                         </div>
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -1025,7 +1095,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -1170,6 +1240,16 @@
                                                         </div>
                                                     </label>
                                                 </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -1180,7 +1260,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -1255,6 +1335,16 @@
                                                                    id="from-transaction-date-delivery-list" type="text" ng-model="ctrl.filters.from" />
                                                         </div>
                                                     </label>
+                                                </section>        
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                    <label class="input">
+                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
+                                                    </label>
                                                 </section>                                   
                                             </div>
                                         </fieldset>
@@ -1266,7 +1356,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -1409,7 +1499,7 @@
                                             <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.filter()">
                                                 <i class="fa fa-search"></i> Cari
                                             </a>
-                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.openPrintOption()">
+                                            <a href="#" class="btn btn-default" style="color: black;" ng-click="ctrl.print()">
                                                 <i class="fa fa-file-pdf-o"></i> Cetak
                                             </a>
                                         </div>
@@ -1482,12 +1572,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal fade in" id="print-option-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
                   <div class="modal-dialog">
                        <div class="modal-content">
                            <div class="modal-header">
-                               <button type="button" class="close" ng-click="ctrl.closePrintOption()" aria-hidden="true">
+                               <button type="button" class="close" ng-click="ctrl.closeModal('dataSummary')" aria-hidden="true">
                                    ×
                                </button>
                                <h4 class="modal-title" id="myModalLabel2">Print Option</h4>
@@ -1497,35 +1586,10 @@
                                    <fieldset>
                                        <div class="row">
                                            <section class="col col-sm-12 col-md-12 col-lg-12">
-                                               <label>Orientation</label>
-                                               <label class="select">
-                                                  <select ng-model="ctrl.orientation">
-                                                      <option value="L">
-                                                          Portrait
-                                                      </option>
-                                                      <option value="P">
-                                                          Landscape
-                                                      </option>
-                                                  </select>
-                                                   <i></i>
-                                               </label>
-                                           </section>
-                                           <section class="col col-sm-12 col-md-12 col-lg-12">
-                                               <label>Paper Size</label>
-                                               <label class="input">
-                                                   <input type="text" ng-model="ctrl.paper" />
-                                               </label>
+                                               <label class="input">Orientation</label>
                                            </section>
                                        </div>
                                    </fieldset>
-                                   <footer>
-                                       <button class="btn btn-primary" ng-click="ctrl.closePrintOption()">
-                                           Cancel
-                                       </button>
-                                       <button class="btn btn-primary" ng-click="ctrl.print()">
-                                           Cetak
-                                       </button>
-                                   </footer>
                                </form>
                            </div>
                        </div>

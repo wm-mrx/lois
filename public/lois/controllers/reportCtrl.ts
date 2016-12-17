@@ -90,6 +90,8 @@
         }
 
         print(): void {
+            this.closePrintOption();
+
             var checkedEntities = this.entities.filter(e => e.checked);
 
             if (checkedEntities.length === 0) {

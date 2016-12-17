@@ -337,20 +337,6 @@
                                                 </section>
                                             </div>
                                         </fieldset>
-                                        <fieldset>
-                                            <div class="row">
-                                                <section class="col col-sm-12 col-md-12 col-lg-6">
-                                                    <label class="input">
-                                                        <input type="text" placeholder="Orientasi" ng-model="ctrl.orientation" />
-                                                    </label>
-                                                </section>
-                                                <section class="col col-sm-12 col-md-12 col-lg-6">
-                                                    <label class="input">
-                                                        <input type="text" placeholder="Jenis Kerta" ng-model="ctrl.paper" />
-                                                    </label>
-                                                </section>
-                                            </div>
-                                        </fieldset>
                                     </form>
                                 </div>
                                 <div class="widget-body-toolbar">
@@ -401,15 +387,15 @@
                                                 <td> {{entity.type}}</td>
                                                 <td style="text-align:right;"> {{entity.shippings.length}} </td>
                                                 <td style="text-align:center;">
-                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print All" ng-click="ctrl.print(entity,1)">
+                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print All" ng-click="ctrl.openPrintOption(entity,1)">
                                                         <i class="fa fa-file-pdf-o"></i> Semua
                                                     </a>
                                                     &nbsp;
-                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Client" ng-click="ctrl.print(entity,2)">
+                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Client" ng-click="ctrl.openPrintOption(entity,2)">
                                                         <i class="fa fa-file-pdf-o"></i> Klien
                                                     </a>
                                                     &nbsp;
-                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Partner" ng-click="ctrl.print(entity,3)">
+                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Partner" ng-click="ctrl.openPrintOption(entity,3)">
                                                         <i class="fa fa-file-pdf-o"></i> Partner
                                                     </a>
                                                 </td>
@@ -431,15 +417,15 @@
                                                 <td class="vert-align"> {{entity.type}}</td>
                                                 <td class="vert-align" style="text-align:right;"> {{entity.shippings.length}} </td>
                                                 <td class="vert-align" style="text-align:center;">
-                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print All" ng-click="ctrl.print(entity,1)">
+                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print All" ng-click="ctrl.openPrintOption(entity,1)">
                                                         <i class="fa fa-file-pdf-o"></i> Semua
                                                     </a>
                                                     &nbsp;
-                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Client" ng-click="ctrl.print(entity,2)">
+                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Client" ng-click="ctrl.openPrintOption(entity,2)">
                                                         <i class="fa fa-file-pdf-o"></i> Klien
                                                     </a>
                                                     &nbsp;
-                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Partner" ng-click="ctrl.print(entity,3)">
+                                                    <a href="#" class="txt-color-white btn-sm btn-success" title="Print Partner" ng-click="ctrl.openPrintOption(entity,3)">
                                                         <i class="fa fa-file-pdf-o"></i> Partner
                                                     </a>                                               
                                                 </td>
@@ -469,6 +455,55 @@
                             <button ng-disabled="ctrl.entities.length == 0" href="#" class="btn btn-link" ng-click="ctrl.next()">
                                 <i class="fa fa-forward"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade in" id="print-option-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="ctrl.closePrintOption()" aria-hidden="true">
+                                ×
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel2">Print Option</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="smart-form">
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-sm-12 col-md-12 col-lg-12">
+                                            <label>Orientation</label>
+                                            <label class="select">
+                                                <select ng-model="ctrl.orientation">
+                                                    <option value="L">
+                                                        Portrait
+                                                    </option>
+                                                    <option value="P">
+                                                        Landscape
+                                                    </option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                        <section class="col col-sm-12 col-md-12 col-lg-12">
+                                            <label>Paper Size</label>
+                                            <label class="input">
+                                                <input type="text" ng-model="ctrl.paper" />
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button class="btn btn-primary" ng-click="ctrl.closePrintOption()">
+                                        Cancel
+                                    </button>
+                                    <button class="btn btn-primary" ng-click="ctrl.print()">
+                                        Cetak
+                                    </button>
+                                </footer>
+                            </form>
                         </div>
                     </div>
                 </div>

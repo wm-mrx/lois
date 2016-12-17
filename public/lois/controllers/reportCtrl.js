@@ -86,6 +86,7 @@ var app;
             };
             reportCtrl.prototype.print = function () {
                 var _this = this;
+                this.closePrintOption();
                 var checkedEntities = this.entities.filter(function (e) { return e.checked; });
                 if (checkedEntities.length === 0) {
                     this.notify('warning', 'Tidak ada data yang pilih');
