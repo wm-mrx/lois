@@ -226,7 +226,7 @@
                     });
 
                     var priceConfig = ctrl.getConfig();
-                    priceConfig.title.text = 'Perbandingan Harga Dalam 1 Minggu Terakhir';
+                    priceConfig.title.text = 'Harga Dalam 1 Minggu Terakhir';
                     priceConfig.yAxis.title.text = 'Harga';
                     priceConfig.xAxis.min = ctrl.createUTC(sixth);
                     priceConfig.xAxis.max = ctrl.createUTC(now);
@@ -234,7 +234,7 @@
                     ctrl.chartConfig[ChartType.price] = priceConfig;
 
                     var colliConfig = ctrl.getConfig();
-                    colliConfig.title.text = 'Perbandingan Coli Dalam 1 Minggu Terakhir';
+                    colliConfig.title.text = 'Coli Dalam 1 Minggu Terakhir';
                     colliConfig.yAxis.title.text = 'Qty';
                     colliConfig.xAxis.min = ctrl.createUTC(sixth);
                     colliConfig.xAxis.max = ctrl.createUTC(now);
@@ -242,7 +242,7 @@
                     ctrl.chartConfig[ChartType.colli] = colliConfig;
 
                     var weightConfig = ctrl.getConfig();
-                    weightConfig.title.text = 'Perbandingan Berat Dalam 1 Minggu Terakhir';
+                    weightConfig.title.text = 'Berat Dalam 1 Minggu Terakhir';
                     weightConfig.yAxis.title.text = 'Kg';
                     weightConfig.xAxis.min = ctrl.createUTC(sixth);
                     weightConfig.xAxis.max = ctrl.createUTC(now);
@@ -250,7 +250,7 @@
                     ctrl.chartConfig[ChartType.weight] = weightConfig;
 
                     var shippingConfig = ctrl.getConfig();
-                    shippingConfig.title.text = 'Perbandingan Transaksi Pengiriman Dalam 1 Minggu Terakhir';
+                    shippingConfig.title.text = 'Transaksi Pengiriman Dalam 1 Minggu Terakhir';
                     shippingConfig.yAxis.title.text = 'Transaction';
                     shippingConfig.xAxis.min = ctrl.createUTC(sixth);
                     shippingConfig.xAxis.max = ctrl.createUTC(now);
