@@ -1,7 +1,7 @@
 ﻿var co = require('co');
 var _ = require('lodash');
 var mongoose = require('mongoose');
-var date = require('../utils/date');
+var dateUtil = require('../utils/date');
 var static = require('../utils/static');
 var schemas = require('../models/schemas');
 var ObjectId = mongoose.Types.ObjectId;
@@ -12,7 +12,7 @@ Controller.prototype.getOverall = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']) };
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
@@ -29,10 +29,10 @@ Controller.prototype.getOverall = function (query) {
     ]).exec();
 };
 
-Controller.prototype.getOverallByDate = function (inputLocationId, from, to) {
+Controller.prototype.getOverallByDate = function (inputLocationId, date) {
     var parameters = { "inputLocation": ObjectId(inputLocationId) };
 
-    parameters['date'] = { "$gte": date.createLower(from), "$lte": date.createUpper(to) };
+    parameters['date'] = { "$gte": dateUtil.createLower(date), "$lte": dateUtil.createUpper(date) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
@@ -92,7 +92,7 @@ Controller.prototype.getSenders = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']) };
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
@@ -129,7 +129,7 @@ Controller.prototype.getPaymentTypes = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']) };
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
@@ -166,7 +166,7 @@ Controller.prototype.getPaymentStatuses = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']) };
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
@@ -202,7 +202,7 @@ Controller.prototype.getRegions = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']) };
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
@@ -254,7 +254,7 @@ Controller.prototype.getAll = function (query) {
         parameters['regions.destination'] = ObjectId(query['regionDest']);
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.find(parameters).populate('sender destination payment.type').skip(skip).limit(limit).exec();
 };

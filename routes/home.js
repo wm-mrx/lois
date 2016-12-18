@@ -30,7 +30,7 @@ router.get(config.api + 'home/getOverall', auth.isAuthenticated, function (req, 
 });
 
 router.get(config.api + 'home/getOverallByDate', auth.isAuthenticated, function (req, res) {
-    controller.getOverallByDate(req.session.user.location._id, req.query.from, req.query.to).then(function (result) {
+    controller.getOverallByDate(req.session.user.location._id, req.query.date).then(function (result) {
         return res.status(200).send(result);
     }).catch(function (error) {
         return res.status(500).send(error.message);

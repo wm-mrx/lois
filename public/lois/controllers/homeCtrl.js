@@ -75,13 +75,12 @@ var app;
                 var fourth = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 4);
                 var fifth = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 5);
                 var sixth = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6);
-                var seventh = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
                 var priceData = [];
                 var colliData = [];
                 var weightData = [];
                 var shippingData = [];
                 var ctrl = this;
-                var loadNowData = function () { return app.api.home.getOverallbyDate(first, now).then(function (res) {
+                var loadNowData = function () { return app.api.home.getOverallbyDate(now).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(now), data[0].price]);
@@ -96,7 +95,7 @@ var app;
                         shippingData.push([ctrl.createUTC(now), 0]);
                     }
                 }); };
-                var loadFirstData = function () { return app.api.home.getOverallbyDate(second, first).then(function (res) {
+                var loadFirstData = function () { return app.api.home.getOverallbyDate(first).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(first), data[0].price]);
@@ -111,7 +110,7 @@ var app;
                         shippingData.push([ctrl.createUTC(first), 0]);
                     }
                 }); };
-                var loadSecondData = function () { return app.api.home.getOverallbyDate(third, second).then(function (res) {
+                var loadSecondData = function () { return app.api.home.getOverallbyDate(second).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(second), data[0].price]);
@@ -126,7 +125,7 @@ var app;
                         shippingData.push([ctrl.createUTC(second), 0]);
                     }
                 }); };
-                var loadThirdData = function () { return app.api.home.getOverallbyDate(fourth, third).then(function (res) {
+                var loadThirdData = function () { return app.api.home.getOverallbyDate(third).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(third), data[0].price]);
@@ -141,7 +140,7 @@ var app;
                         shippingData.push([ctrl.createUTC(third), 0]);
                     }
                 }); };
-                var loadFourtData = function () { return app.api.home.getOverallbyDate(fifth, fourth).then(function (res) {
+                var loadFourtData = function () { return app.api.home.getOverallbyDate(fourth).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(fourth), data[0].price]);
@@ -156,7 +155,7 @@ var app;
                         shippingData.push([ctrl.createUTC(fourth), 0]);
                     }
                 }); };
-                var loadFifthData = function () { return app.api.home.getOverallbyDate(sixth, fifth).then(function (res) {
+                var loadFifthData = function () { return app.api.home.getOverallbyDate(fifth).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(fifth), data[0].price]);
@@ -171,7 +170,7 @@ var app;
                         shippingData.push([ctrl.createUTC(fifth), 0]);
                     }
                 }); };
-                var loadSixthData = function () { return app.api.home.getOverallbyDate(seventh, sixth).then(function (res) {
+                var loadSixthData = function () { return app.api.home.getOverallbyDate(sixth).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
                         priceData.push([ctrl.createUTC(sixth), data[0].price]);

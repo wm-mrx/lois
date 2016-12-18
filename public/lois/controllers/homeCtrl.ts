@@ -73,8 +73,7 @@
             var fourth = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 4);
             var fifth = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 5);
             var sixth = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6);
-            var seventh = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
-
+      
             var priceData: any[] = [];
             var colliData: any[] = [];
             var weightData: any[] = [];
@@ -82,7 +81,7 @@
 
             var ctrl = this;
 
-            var loadNowData = () => app.api.home.getOverallbyDate(first, now).then(res => {
+            var loadNowData = () => app.api.home.getOverallbyDate(now).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {
@@ -99,7 +98,7 @@
                 }
             });
 
-            var loadFirstData = () => app.api.home.getOverallbyDate(second, first).then(res => {
+            var loadFirstData = () => app.api.home.getOverallbyDate(first).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {
@@ -116,7 +115,7 @@
                 }
             });
 
-            var loadSecondData = () => app.api.home.getOverallbyDate(third, second).then(res => {
+            var loadSecondData = () => app.api.home.getOverallbyDate(second).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {
@@ -133,7 +132,7 @@
                 }
             });
 
-            var loadThirdData = () => app.api.home.getOverallbyDate(fourth, third).then(res => {
+            var loadThirdData = () => app.api.home.getOverallbyDate(third).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {
@@ -150,7 +149,7 @@
                 }
             });
 
-            var loadFourtData = () => app.api.home.getOverallbyDate(fifth, fourth).then(res => {
+            var loadFourtData = () => app.api.home.getOverallbyDate(fourth).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {
@@ -167,7 +166,7 @@
                 }
             });
 
-            var loadFifthData = () => app.api.home.getOverallbyDate(sixth, fifth).then(res => {
+            var loadFifthData = () => app.api.home.getOverallbyDate(fifth).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {
@@ -184,7 +183,7 @@
                 }
             });
 
-            var loadSixthData = () => app.api.home.getOverallbyDate(seventh, sixth).then(res => {
+            var loadSixthData = () => app.api.home.getOverallbyDate(sixth).then(res => {
                 var data = <Array<any>>res.data;
 
                 if (data[0]) {

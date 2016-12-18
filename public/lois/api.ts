@@ -58,8 +58,8 @@
             return app.http.get('/lois/api/home/getOverall?query=' + JSON.stringify(query));
         }
 
-        static getOverallbyDate(from: any, to: any) {
-            return app.http.get('/lois/api/home/getOverallbyDate?from=' + from + '&to=' + to);
+        static getOverallbyDate(date: any) {
+            return app.http.get('/lois/api/home/getOverallbyDate?date=' + date);
         }
 
         static getDestinations(query: any) {
