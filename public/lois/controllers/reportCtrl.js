@@ -92,6 +92,7 @@ var app;
                     this.notify('warning', 'Tidak ada data yang pilih');
                     return;
                 }
+                this.createQuery();
                 angular.extend(this.query, { "printNoPrice": this.printNoPrice });
                 this.loadingData = true;
                 var dataFunction = this.dataFunc(checkedEntities, this.query);
