@@ -210,9 +210,73 @@
                                 </tbody>
                             </table>
                         </div>
-                       
                         <div class="table-responsive" ng-show="ctrl.viewType == 2">
-                           
+                            <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                    <tr style="color:black;">
+                                        <th style="width: 1%;"><strong>Retur</strong></th>
+                                        <th style="text-align: center; width: 6%;">Tgl Retur</th>
+                                        <th style="text-align: center; width: 6%;">Penerima</th>
+                                        <th style="text-align: center; width: 6%;">Ttd</th>
+                                        <th style="text-align: center; width: 5%;">Stempel</th>
+                                        <th style="text-align: center; width: 5%;">Kwitansi</th>
+                                    </tr>
+                                    <tr style="color:black;">
+                                        <td></td>
+                                        <td>
+                                            {{ctrl.selectedEntity.returnInfo.modified.date | date: 'yyyy-MM-dd hh:mm:ss'}}
+                                        </td>
+                                        <td>
+                                            {{ctrl.selectedEntity.returnInfo.concernedPerson}}
+                                        </td>
+                                        <td>
+                                            {{ctrl.selectedEntity.returnInfo.signed ? 'V' : 'X'}}
+                                        </td>
+                                        <td>
+                                            {{ctrl.selectedEntity.returnInfo.stamped ? 'V' : 'X'}}
+                                        </td>
+                                        <td>
+                                            {{ctrl.selectedEntity.returnInfo.receipt ? 'V' : 'X'}}
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br />
+                        <div class="table-responsive" ng-show="ctrl.viewType == 2">
+                            <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                    <tr style="color:black;">
+                                        <th style="width: 1%;"><strong>Pengiriman</strong></th>
+                                        <th style="text-align: center; width: 6%;">Tgl Kirim</th>
+                                        <th style="text-align: center; width: 6%;">Coli</th>
+                                        <th style="text-align: center; width: 6%;">Berat</th>
+                                        <th style="text-align: center; width: 5%;">Supir</th>
+                                        <th style="text-align: center; width: 5%;">Kode Kirim</th>
+                                    </tr>
+                                    <tr style="color:black;" ng-repeat="delivery in ctrl.deliveryInfo">
+                                        <td></td>
+                                        <td>
+                                            {{delivery.items.deliveries.createdDate ? delivery.items.deliveries.createdDate : delivery.items.deliveries.date | date: 'yyyy-MM-dd hh:mm:ss'}}
+                                        </td>
+                                        <td>
+                                            {{delivery.items.deliveries.quantity}}
+                                        </td>
+                                        <td>
+                                            {{delivery.items.deliveries.weight}}
+                                        </td>
+                                        <td>
+                                            {{delivery.driver[0].name}}
+                                        </td>
+                                        <td>
+                                            {{delivery.items.deliveries.deliveryCode}}
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br />
+                        <div class="table-responsive" ng-show="ctrl.viewType == 2">
                             <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
                                 <thead>
                                     <tr style="color:black;">
@@ -248,39 +312,7 @@
                                 </thead>
                             </table>
                         </div>
-                        <br />
-                        <div class="table-responsive" ng-show="ctrl.viewType == 2">
-                            <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
-                                <thead>
-                                    <tr style="color:black;">
-                                        <th style="width: 1%;"><strong>Pengiriman</strong></th>
-                                        <th style="text-align: center; width: 6%;">Tgl Kirim</th>
-                                        <th style="text-align: center; width: 6%;">Coli</th>
-                                        <th style="text-align: center; width: 6%;">Berat</th>
-                                        <th style="text-align: center; width: 5%;">Supir</th> 
-                                        <th style="text-align: center; width: 5%;">Kode Kirim</th> 
-                                    </tr>
-                                    <tr style="color:black;" ng-repeat="delivery in ctrl.deliveryInfo">
-                                        <td></td>
-                                        <td>
-                                            {{delivery.items.deliveries.createdDate ? delivery.items.deliveries.createdDate : delivery.items.deliveries.date | date: 'yyyy-MM-dd hh:mm:ss'}}
-                                        </td>
-                                        <td>
-                                            {{delivery.items.deliveries.quantity}}
-                                        </td>
-                                        <td>
-                                            {{delivery.items.deliveries.weight}}
-                                        </td>
-                                        <td>
-                                            {{delivery.driver[0].name}}
-                                        </td>
-                                        <td>
-                                            {{delivery.items.deliveries.deliveryCode}}
-                                        </td>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                       
                     </div>
                     <div class="widget-footer" ng-show="ctrl.entities.length >= ctrl.paging.max && ctrl.viewType == 1">
                         <div class="input-group">

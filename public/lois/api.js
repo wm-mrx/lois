@@ -65,6 +65,15 @@ var app;
             home.getOverallbyDate = function (date) {
                 return app.http.get('/lois/api/home/getOverallbyDate?date=' + date);
             };
+            home.getTotalBelumTerekap = function () {
+                return app.http.get('/lois/api/home/getTotalBelumTerekap');
+            };
+            home.getTotalTerekap = function () {
+                return app.http.get('/lois/api/home/getTotalTerekap');
+            };
+            home.getTotalTerkirim = function () {
+                return app.http.get('/lois/api/home/getTotalTerkirim');
+            };
             home.getDestinations = function (query) {
                 return app.http.get('/lois/api/home/getDestinations?query=' + JSON.stringify(query));
             };

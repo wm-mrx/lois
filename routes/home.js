@@ -37,6 +37,30 @@ router.get(config.api + 'home/getOverallByDate', auth.isAuthenticated, function 
     });
 });
 
+router.get(config.api + 'home/getTotalBelumTerekap', auth.isAuthenticated, function (req, res) {
+    controller.getTotalBelumTerekap(req.session.user.location._id).then(function (result) {
+        return res.status(200).send(result);
+    }).catch(function (error) {
+        return res.status(500).send(error.message);
+    });
+});
+
+router.get(config.api + 'home/getTotalTerekap', auth.isAuthenticated, function (req, res) {
+    controller.getTotalTerekap(req.session.user.location._id).then(function (result) {
+        return res.status(200).send(result);
+    }).catch(function (error) {
+        return res.status(500).send(error.message);
+    });
+});
+
+router.get(config.api + 'home/getTotalTerkirim', auth.isAuthenticated, function (req, res) {
+    controller.getTotalTerkirim(req.session.user.location._id).then(function (result) {
+        return res.status(200).send(result);
+    }).catch(function (error) {
+        return res.status(500).send(error.message);
+    });
+});
+
 router.get(config.api + 'home/getDestinations', auth.isAuthenticated, function (req, res) {
     var query = JSON.parse(req.query['query']);
     query['location'] = req.session.user.location._id;

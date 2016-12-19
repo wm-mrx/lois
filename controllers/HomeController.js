@@ -49,6 +49,55 @@ Controller.prototype.getOverallByDate = function (inputLocationId, date) {
     ]).exec();
 }
 
+Controller.prototype.getTotalTerekap = function (inputLocationId) {
+    var now = new Date();
+    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(now.toDateString()), "$lte": dateUtil.createUpper(now.toDateString()) } };
+    return schemas.shippings.aggregate([
+        { "$match": parameters },
+        { "$unwind": "$items" },
+        { "$match": { "items.status": "Terekap" } },
+        {
+            "$group": {
+                "_id": "_id",
+                "total": { "$sum": 1 }
+            }
+        }
+    ]).exec();
+}
+
+Controller.prototype.getTotalBelumTerekap = function (inputLocationId) {
+    var now = new Date();
+    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(now.toDateString()), "$lte": dateUtil.createUpper(now.toDateString()) } };
+    return schemas.shippings.aggregate([
+        { "$match": parameters },
+        { "$unwind": "$items" },
+        { "$match": { "items.status": "Belum Terekap" } },
+        {
+            "$group": {
+                "_id": "_id",
+                "total": { "$sum": 1 }
+            }
+        }
+    ]).exec();
+}
+
+Controller.prototype.getTotalTerkirim = function (inputLocationId) {
+    var now = new Date();
+    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(now.toDateString()), "$lte": dateUtil.createUpper(now.toDateString()) } };
+    return schemas.shippings.aggregate([
+        { "$match": parameters },
+        { "$unwind": "$items" },
+        { "$match": { "items.status": "Terkirim" } },
+        {
+            "$group": {
+                "_id": "_id",
+                "total": { "$sum": 1 }
+            }
+        }
+    ]).exec();
+}
+
+
 Controller.prototype.getDestinations = function (query) {
     var limit = query['limit'] ? query['limit'] : 10;
     var skip = query['skip'] ? query['skip'] : 0;

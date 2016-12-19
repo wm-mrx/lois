@@ -31,15 +31,34 @@ var app;
             __extends(homeCtrl, _super);
             function homeCtrl($scope, Notification) {
                 var _this = _super.call(this, Notification) || this;
+                _this.terekap = 0;
+                _this.belumTerekap = 0;
+                _this.terkirim = 0;
                 _this.initHighchart();
                 _this.viewType = ViewType.summary;
                 _this.summaryType = SummaryType.table;
                 _this.chartConfig = {};
-                _this.loadChartData();
+                _this.loadItemStatuses();
+                _this.loadBarChartData();
                 _this.loadOverall();
                 _this.onSummaryChanges('destination');
                 return _this;
             }
+            homeCtrl.prototype.loadItemStatuses = function () {
+                var ctrl = this;
+                app.api.home.getTotalBelumTerekap().then(function (res) {
+                    if (res.data[0])
+                        ctrl.belumTerekap = res.data[0]['total'];
+                });
+                app.api.home.getTotalTerekap().then(function (res) {
+                    if (res.data[0])
+                        ctrl.terekap = res.data[0]['total'];
+                });
+                app.api.home.getTotalTerkirim().then(function (res) {
+                    if (res.data[0])
+                        ctrl.terkirim = res.data[0]['total'];
+                });
+            };
             homeCtrl.prototype.initHighchart = function () {
                 Highcharts.setOptions({
                     global: {
@@ -67,7 +86,9 @@ var app;
                     }
                 });
             };
-            homeCtrl.prototype.loadChartData = function () {
+            homeCtrl.prototype.loadSeries = function () {
+            };
+            homeCtrl.prototype.loadBarChartData = function () {
                 var now = new Date();
                 var first = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
                 var second = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2);
@@ -205,28 +226,28 @@ var app;
                     shippingData = shippingData.sort(function (a, b) {
                         return a[0] - b[0];
                     });
-                    var priceConfig = ctrl.getConfig();
+                    var priceConfig = ctrl.getBarChartConfig();
                     priceConfig.title.text = 'Harga Dalam 1 Minggu Terakhir';
                     priceConfig.yAxis.title.text = 'Harga';
                     priceConfig.xAxis.min = ctrl.createUTC(sixth);
                     priceConfig.xAxis.max = ctrl.createUTC(now);
                     priceConfig.series.push({ data: priceData });
                     ctrl.chartConfig[ChartType.price] = priceConfig;
-                    var colliConfig = ctrl.getConfig();
+                    var colliConfig = ctrl.getBarChartConfig();
                     colliConfig.title.text = 'Coli Dalam 1 Minggu Terakhir';
                     colliConfig.yAxis.title.text = 'Qty';
                     colliConfig.xAxis.min = ctrl.createUTC(sixth);
                     colliConfig.xAxis.max = ctrl.createUTC(now);
                     colliConfig.series.push({ data: colliData });
                     ctrl.chartConfig[ChartType.colli] = colliConfig;
-                    var weightConfig = ctrl.getConfig();
+                    var weightConfig = ctrl.getBarChartConfig();
                     weightConfig.title.text = 'Berat Dalam 1 Minggu Terakhir';
                     weightConfig.yAxis.title.text = 'Kg';
                     weightConfig.xAxis.min = ctrl.createUTC(sixth);
                     weightConfig.xAxis.max = ctrl.createUTC(now);
                     weightConfig.series.push({ data: weightData });
                     ctrl.chartConfig[ChartType.weight] = weightConfig;
-                    var shippingConfig = ctrl.getConfig();
+                    var shippingConfig = ctrl.getBarChartConfig();
                     shippingConfig.title.text = 'Transaksi Pengiriman Dalam 1 Minggu Terakhir';
                     shippingConfig.yAxis.title.text = 'Transaction';
                     shippingConfig.xAxis.min = ctrl.createUTC(sixth);
@@ -310,7 +331,7 @@ var app;
                 this.viewType = ViewType.summary;
                 this.onSummaryChanges(this.summary);
             };
-            homeCtrl.prototype.getConfig = function () {
+            homeCtrl.prototype.getBarChartConfig = function () {
                 var date = new Date();
                 return {
                     options: {
