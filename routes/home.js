@@ -38,7 +38,10 @@ router.get(config.api + 'home/getOverallByDate', auth.isAuthenticated, function 
 });
 
 router.get(config.api + 'home/getTotalBelumTerekap', auth.isAuthenticated, function (req, res) {
-    controller.getTotalBelumTerekap(req.session.user.location._id).then(function (result) {
+    var query = JSON.parse(req.query['query']);
+    query['inputLocationId'] = req.session.user.location._id;
+
+    controller.getTotalBelumTerekap(query).then(function (result) {
         return res.status(200).send(result);
     }).catch(function (error) {
         return res.status(500).send(error.message);
@@ -46,7 +49,10 @@ router.get(config.api + 'home/getTotalBelumTerekap', auth.isAuthenticated, funct
 });
 
 router.get(config.api + 'home/getTotalTerekap', auth.isAuthenticated, function (req, res) {
-    controller.getTotalTerekap(req.session.user.location._id).then(function (result) {
+    var query = JSON.parse(req.query['query']);
+    query['inputLocationId'] = req.session.user.location._id;
+
+    controller.getTotalTerekap(query).then(function (result) {
         return res.status(200).send(result);
     }).catch(function (error) {
         return res.status(500).send(error.message);
@@ -54,7 +60,10 @@ router.get(config.api + 'home/getTotalTerekap', auth.isAuthenticated, function (
 });
 
 router.get(config.api + 'home/getTotalTerkirim', auth.isAuthenticated, function (req, res) {
-    controller.getTotalTerkirim(req.session.user.location._id).then(function (result) {
+    var query = JSON.parse(req.query['query']);
+    query['inputLocationId'] = req.session.user.location._id;
+
+    controller.getTotalTerkirim(query).then(function (result) {
         return res.status(200).send(result);
     }).catch(function (error) {
         return res.status(500).send(error.message);

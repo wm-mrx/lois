@@ -31,6 +31,13 @@
 
         constructor($scope, Notification) {
             super(Notification);
+            var dates = new Date();
+            var dd = dates.getDate();
+            var mm = dates.getMonth() + 1;
+            var yyyy = dates.getFullYear();
+
+            var ToDate = yyyy + '-' + mm + '-' + dd;
+            this.filters.date = ToDate;
             this.terekap = 0;
             this.belumTerekap = 0;
             this.terkirim = 0;
@@ -38,6 +45,12 @@
             this.viewType = ViewType.summary;
             this.summaryType = SummaryType.table;
             this.chartConfig = {};
+            this.filter();
+        }
+
+        filter(): void {
+            this.paging.page = 1;
+            this.createQuery();
             this.loadItemStatuses();
             this.loadBarChartData();
             this.loadOverall();
@@ -46,20 +59,27 @@
 
         loadItemStatuses(): void {
             var ctrl = this;
+            var query = { "date": this.filters.date };
 
-            api.home.getTotalBelumTerekap().then(res => {
-                if (res.data[0]) 
+            api.home.getTotalBelumTerekap(query).then(res => {
+                if (res.data[0])
                     ctrl.belumTerekap = res.data[0]['total'];
+                else
+                    ctrl.belumTerekap = 0;
             });
 
-            api.home.getTotalTerekap().then(res => {
+            api.home.getTotalTerekap(query).then(res => {
                 if (res.data[0])
                     ctrl.terekap = res.data[0]['total'];
+                else
+                    ctrl.terekap = 0;
             });
 
-            api.home.getTotalTerkirim().then(res => {
+            api.home.getTotalTerkirim(query).then(res => {
                 if (res.data[0])
                     ctrl.terkirim = res.data[0]['total'];
+                else
+                    ctrl.terkirim = 0;
             });
         }
 
@@ -91,10 +111,6 @@
             });
         }
 
-        loadSeries(): void {
-
-        }
-
         loadBarChartData(): void {
             var now = new Date();
             var first = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
@@ -110,6 +126,7 @@
             var shippingData: any[] = [];
 
             var ctrl = this;
+            var query = { "date": this.filters.date };
 
             var loadNowData = () => app.api.home.getOverallbyDate(now).then(res => {
                 var data = <Array<any>>res.data;
@@ -351,10 +368,9 @@
             this.summary = summary;
             this.viewType = ViewType.summary;
             this.paging.page = 1;
-            this.loadOverall();
-
+            
             if (this.summaryType === SummaryType.table)
-                this.filter();
+                this.load();
         }
 
         viewDetails(id): void {

@@ -30,6 +30,7 @@ Controller.prototype.getOverall = function (query) {
 };
 
 Controller.prototype.getOverallByDate = function (inputLocationId, date) {
+    
     var parameters = { "inputLocation": ObjectId(inputLocationId) };
 
     parameters['date'] = { "$gte": dateUtil.createLower(date), "$lte": dateUtil.createUpper(date) };
@@ -49,9 +50,11 @@ Controller.prototype.getOverallByDate = function (inputLocationId, date) {
     ]).exec();
 }
 
-Controller.prototype.getTotalTerekap = function (inputLocationId) {
-    var now = new Date();
-    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(now.toDateString()), "$lte": dateUtil.createUpper(now.toDateString()) } };
+Controller.prototype.getTotalTerekap = function (query) {
+    var date = query['date'];
+    var inputLocationId = query['inputLocationId'];
+
+    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(date), "$lte": dateUtil.createUpper(date) } };
     return schemas.shippings.aggregate([
         { "$match": parameters },
         { "$unwind": "$items" },
@@ -65,9 +68,11 @@ Controller.prototype.getTotalTerekap = function (inputLocationId) {
     ]).exec();
 }
 
-Controller.prototype.getTotalBelumTerekap = function (inputLocationId) {
-    var now = new Date();
-    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(now.toDateString()), "$lte": dateUtil.createUpper(now.toDateString()) } };
+Controller.prototype.getTotalBelumTerekap = function (query) {
+    var date = query['date'];
+    var inputLocationId = query['inputLocationId'];
+
+    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(date), "$lte": dateUtil.createUpper(date) } };
     return schemas.shippings.aggregate([
         { "$match": parameters },
         { "$unwind": "$items" },
@@ -81,9 +86,11 @@ Controller.prototype.getTotalBelumTerekap = function (inputLocationId) {
     ]).exec();
 }
 
-Controller.prototype.getTotalTerkirim = function (inputLocationId) {
-    var now = new Date();
-    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(now.toDateString()), "$lte": dateUtil.createUpper(now.toDateString()) } };
+Controller.prototype.getTotalTerkirim = function (query) {
+    var date = query['date'];
+    var inputLocationId = query['inputLocationId'];
+
+    var parameters = { "inputLocation": ObjectId(inputLocationId), "date": { "$gte": dateUtil.createLower(date), "$lte": dateUtil.createUpper(date) } };
     return schemas.shippings.aggregate([
         { "$match": parameters },
         { "$unwind": "$items" },
@@ -104,7 +111,7 @@ Controller.prototype.getDestinations = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']) };
 
     if (query['date'])
-        parameters['date'] = { "$gte": date.createLower(query['date']), "$lte": date.createUpper(query['date']) };
+        parameters['date'] = { "$gte": dateUtil.createLower(query['date']), "$lte": dateUtil.createUpper(query['date']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },

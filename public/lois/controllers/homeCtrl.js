@@ -31,6 +31,12 @@ var app;
             __extends(homeCtrl, _super);
             function homeCtrl($scope, Notification) {
                 var _this = _super.call(this, Notification) || this;
+                var dates = new Date();
+                var dd = dates.getDate();
+                var mm = dates.getMonth() + 1;
+                var yyyy = dates.getFullYear();
+                var ToDate = yyyy + '-' + mm + '-' + dd;
+                _this.filters.date = ToDate;
                 _this.terekap = 0;
                 _this.belumTerekap = 0;
                 _this.terkirim = 0;
@@ -38,25 +44,37 @@ var app;
                 _this.viewType = ViewType.summary;
                 _this.summaryType = SummaryType.table;
                 _this.chartConfig = {};
-                _this.loadItemStatuses();
-                _this.loadBarChartData();
-                _this.loadOverall();
-                _this.onSummaryChanges('destination');
+                _this.filter();
                 return _this;
             }
+            homeCtrl.prototype.filter = function () {
+                this.paging.page = 1;
+                this.createQuery();
+                this.loadItemStatuses();
+                this.loadBarChartData();
+                this.loadOverall();
+                this.onSummaryChanges('destination');
+            };
             homeCtrl.prototype.loadItemStatuses = function () {
                 var ctrl = this;
-                app.api.home.getTotalBelumTerekap().then(function (res) {
+                var query = { "date": this.filters.date };
+                app.api.home.getTotalBelumTerekap(query).then(function (res) {
                     if (res.data[0])
                         ctrl.belumTerekap = res.data[0]['total'];
+                    else
+                        ctrl.belumTerekap = 0;
                 });
-                app.api.home.getTotalTerekap().then(function (res) {
+                app.api.home.getTotalTerekap(query).then(function (res) {
                     if (res.data[0])
                         ctrl.terekap = res.data[0]['total'];
+                    else
+                        ctrl.terekap = 0;
                 });
-                app.api.home.getTotalTerkirim().then(function (res) {
+                app.api.home.getTotalTerkirim(query).then(function (res) {
                     if (res.data[0])
                         ctrl.terkirim = res.data[0]['total'];
+                    else
+                        ctrl.terkirim = 0;
                 });
             };
             homeCtrl.prototype.initHighchart = function () {
@@ -86,8 +104,6 @@ var app;
                     }
                 });
             };
-            homeCtrl.prototype.loadSeries = function () {
-            };
             homeCtrl.prototype.loadBarChartData = function () {
                 var now = new Date();
                 var first = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
@@ -101,6 +117,7 @@ var app;
                 var weightData = [];
                 var shippingData = [];
                 var ctrl = this;
+                var query = { "date": this.filters.date };
                 var loadNowData = function () { return app.api.home.getOverallbyDate(now).then(function (res) {
                     var data = res.data;
                     if (data[0]) {
@@ -315,9 +332,8 @@ var app;
                 this.summary = summary;
                 this.viewType = ViewType.summary;
                 this.paging.page = 1;
-                this.loadOverall();
                 if (this.summaryType === SummaryType.table)
-                    this.filter();
+                    this.load();
             };
             homeCtrl.prototype.viewDetails = function (id) {
                 this.filters[this.type] = id;

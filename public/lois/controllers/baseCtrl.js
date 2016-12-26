@@ -17,11 +17,11 @@ var app;
             }
             baseCtrl.prototype.filter = function () {
                 this.paging.page = 1;
+                this.createQuery();
                 this.load();
             };
             baseCtrl.prototype.load = function () {
                 var ctrl = this;
-                ctrl.createQuery();
                 ctrl.loadingData = true;
                 ctrl.checkedAll = false;
                 ctrl.functions.load(ctrl.query).then(function (result) {

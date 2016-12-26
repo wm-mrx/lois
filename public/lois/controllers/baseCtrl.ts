@@ -26,12 +26,12 @@
 
         filter(): void {
             this.paging.page = 1;
+            this.createQuery();
             this.load();
         }
 
         load(): void {
-            var ctrl = this;
-            ctrl.createQuery();
+            var ctrl = this; 
             ctrl.loadingData = true;
             ctrl.checkedAll = false;
 

@@ -62,16 +62,16 @@
             return app.http.get('/lois/api/home/getOverallbyDate?date=' + date);
         }
 
-        static getTotalBelumTerekap() {
-            return app.http.get('/lois/api/home/getTotalBelumTerekap');
+        static getTotalBelumTerekap(query) {
+            return app.http.get('/lois/api/home/getTotalBelumTerekap?query=' + JSON.stringify(query));
         }
 
-        static getTotalTerekap() {
-            return app.http.get('/lois/api/home/getTotalTerekap');
+        static getTotalTerekap(query) {
+            return app.http.get('/lois/api/home/getTotalTerekap?query=' + JSON.stringify(query));
         }
 
-        static getTotalTerkirim() {
-            return app.http.get('/lois/api/home/getTotalTerkirim');
+        static getTotalTerkirim(query) {
+            return app.http.get('/lois/api/home/getTotalTerkirim?query=' + JSON.stringify(query));
         }
 
         static getDestinations(query: any) {

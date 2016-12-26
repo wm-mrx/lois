@@ -65,14 +65,14 @@ var app;
             home.getOverallbyDate = function (date) {
                 return app.http.get('/lois/api/home/getOverallbyDate?date=' + date);
             };
-            home.getTotalBelumTerekap = function () {
-                return app.http.get('/lois/api/home/getTotalBelumTerekap');
+            home.getTotalBelumTerekap = function (query) {
+                return app.http.get('/lois/api/home/getTotalBelumTerekap?query=' + JSON.stringify(query));
             };
-            home.getTotalTerekap = function () {
-                return app.http.get('/lois/api/home/getTotalTerekap');
+            home.getTotalTerekap = function (query) {
+                return app.http.get('/lois/api/home/getTotalTerekap?query=' + JSON.stringify(query));
             };
-            home.getTotalTerkirim = function () {
-                return app.http.get('/lois/api/home/getTotalTerkirim');
+            home.getTotalTerkirim = function (query) {
+                return app.http.get('/lois/api/home/getTotalTerkirim?query=' + JSON.stringify(query));
             };
             home.getDestinations = function (query) {
                 return app.http.get('/lois/api/home/getDestinations?query=' + JSON.stringify(query));
