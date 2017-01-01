@@ -330,7 +330,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/deliveryOrder', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/deliveryOrder', JSON.stringify(data), config);
         }
 
         static printPaid(data: any) {
@@ -339,7 +339,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/paid', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/paid', JSON.stringify(data), config);
         }
 
         static printUnpaid(data: any) {
@@ -348,7 +348,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/unpaid', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/unpaid', JSON.stringify(data), config);
         }
 
         static printRecapitulation(data: any) {
@@ -357,7 +357,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/recapitulation', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/recapitulation', JSON.stringify(data), config);
         }
 
         static printDelivery(data: any) {
@@ -366,7 +366,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/delivery', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/delivery', JSON.stringify(data), config);
         }
 
         static printReturn(data: any) {
@@ -375,7 +375,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/retur', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/retur', JSON.stringify(data), config);
         }
 
         static printUnconfirmed(data: any) {
@@ -384,7 +384,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/sj-balik', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/sj-balik', JSON.stringify(data), config);
         }
 
         static printDeliveryList(data: any) {
@@ -393,7 +393,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/deliveryList', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/deliveryList', JSON.stringify(data), config);
         }
 
         static printCommision(data: any) {
@@ -402,7 +402,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/commision', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/commision', JSON.stringify(data), config);
         }
 
         static printGetPayOff(data: any) {
@@ -411,7 +411,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/pay-off', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/pay-off', JSON.stringify(data), config);
         }
 
         static printPartner(data: any) {
@@ -420,7 +420,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/partner', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/partner', JSON.stringify(data), config);
         }
 
         static printInvoice(data: any) {
@@ -429,23 +429,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://localhost/lois-report-engine/index.php/invoice', JSON.stringify(data), config);
+            return app.http.post('http://limassentosa.net:8000/lois-report-engine/index.php/invoice', JSON.stringify(data), config);
         }
-
-        static printInvoiceClient(data) {
-            var config = {
-                "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                "responseType": "arraybuffer"
-            };
-            return app.http.post('http://lois.limassentosa.net/index.php/invoiceClient', JSON.stringify(data), config);
-        };
-
-        static printInvoicePartner(data) {
-            var config = {
-                "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                "responseType": "arraybuffer"
-            };
-            return app.http.post('http://lois.limassentosa.net/index.php/invoicePartner', JSON.stringify(data), config);
-        };
     }
 }
