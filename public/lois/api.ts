@@ -169,6 +169,14 @@
         static pay(data: any) {
             return http.post('/lois/api/payment/pay', JSON.stringify(data));
         }
+
+        static deletePay (data) {
+            return http.post('/lois/api/payment/deletePay', JSON.stringify(data));
+        };
+
+        static updatePay(data) {
+            return http.post('/lois/api/payment/updatePay', JSON.stringify(data));
+        };
     }
 
     export class invoice {

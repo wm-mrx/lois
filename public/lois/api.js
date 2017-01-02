@@ -165,6 +165,14 @@ var app;
             payment.pay = function (data) {
                 return app.http.post('/lois/api/payment/pay', JSON.stringify(data));
             };
+            payment.deletePay = function (data) {
+                return app.http.post('/lois/api/payment/deletePay', JSON.stringify(data));
+            };
+            ;
+            payment.updatePay = function (data) {
+                return app.http.post('/lois/api/payment/updatePay', JSON.stringify(data));
+            };
+            ;
             return payment;
         }());
         api.payment = payment;
