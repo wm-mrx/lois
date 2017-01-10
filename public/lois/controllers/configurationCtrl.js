@@ -16,9 +16,17 @@ var app;
                 _this.functions.save = app.api.configuration.save;
                 _this.functions.delete = app.api.configuration.delete;
                 _this.functions.autocomplete = app.api.autocomplete.getAll;
+                _this.init();
                 _this.onConfigChange('region');
                 return _this;
             }
+            configurationCtrl.prototype.init = function () {
+                var ctrl = this;
+                app.api.user.getSession().then(function (result) {
+                    var role = result.data['role'];
+                    ctrl.role = role;
+                });
+            };
             configurationCtrl.prototype.onConfigChange = function (config) {
                 this.config = config;
                 this.paging.page = 1;

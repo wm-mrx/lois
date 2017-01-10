@@ -1,6 +1,7 @@
 ﻿module app.controllers {
     class configurationCtrl extends baseCtrl {
         config: string;
+        role: any;
 
         static $inject = ['$scope', 'Notification'];
 
@@ -11,8 +12,16 @@
             this.functions.save = api.configuration.save;
             this.functions.delete = api.configuration.delete;
             this.functions.autocomplete = api.autocomplete.getAll;
-
+            this.init();
             this.onConfigChange('region');
+        }
+
+        init() {
+            var ctrl = this;
+            app.api.user.getSession().then(function (result) {
+                var role = result.data['role'];
+                ctrl.role = role;
+            });
         }
 
         onConfigChange(config: string): void {
