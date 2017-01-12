@@ -145,7 +145,10 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
             result['destination'] = destination.name;
         }     
         else
-            result['destination'] = '';       
+            result['destination'] = '';    
+
+        var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
+        result['paymentMethod'] = paymentType ? paymentType.name : " ";
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
@@ -265,6 +268,9 @@ Controller.prototype.getRecapitulationsReport = function (viewModels, query, use
 
         var trainType = yield schemas.trainTypes.findOne({ "_id": ObjectId(viewModels[0].items.recapitulations.trainType) }).exec();
         result['trainType'] = trainType.name;
+
+        var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
+        result['paymentMethod'] = paymentType ? paymentType.name : " ";
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var driver = yield schemas.drivers.findOne({ _id: ObjectId(viewModel.items.recapitulations.driver) });
@@ -478,10 +484,10 @@ Controller.prototype.getReturnsReport = function (viewModels, query, user) {
     };
 
     return co(function* () {
-
         var destinations = [];
 
         var payment_method = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
+
         if (payment_method)
             result['paymentMethod'] = payment_method.name;
 
