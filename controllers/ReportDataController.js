@@ -656,6 +656,11 @@ Controller.prototype.getDeliveryListReport = function (viewModels, query, user) 
         var sumTotalWeight = 0;
         var sumPrice = 0;
 
+        var payment_method = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
+
+        if (payment_method)
+            result['paymentMethod'] = payment_method.name;
+
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
