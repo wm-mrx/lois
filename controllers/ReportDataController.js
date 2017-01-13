@@ -218,7 +218,7 @@ Controller.prototype.getRecapitulations = function (query) {
         recapParameters['items.recapitulations.driver'] = ObjectId(query['driver'])
 
     if (query['recapDate'])
-        recapParameters['items.recapitulations.date'] = { "$gte": date.createLower(query['recapDate']), "$lte": date.createUpper(query['recapDate']) };
+        recapParameters['items.recapitulations.updatedDate'] = { "$gte": date.createLower(query['recapDate']), "$lte": date.createUpper(query['recapDate']) };
 
     if (query['departureDate'])
         recapParameters['items.recapitulations.departureDate'] = { "$gte": date.createLower(query['departureDate']), "$lte": date.createUpper(query['departureDate']) };
@@ -365,7 +365,7 @@ Controller.prototype.getDeliveries = function (query) {
         deliveryParameters['items.deliveries.driver'] = ObjectId(query['driver'])
 
     if (query['deliveryDate'])
-        deliveryParameters['items.deliveries.date'] = { "$gte": date.createLower(query['deliveryDate']), "$lte": date.createUpper(query['deliveryDate']) };
+        deliveryParameters['items.deliveries.updatedDate'] = { "$gte": date.createLower(query['deliveryDate']), "$lte": date.createUpper(query['deliveryDate']) };
 
     return schemas.shippings.aggregate([
         { "$match": parameters },
