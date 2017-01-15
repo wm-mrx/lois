@@ -114,7 +114,7 @@ Controller.prototype.getUnpaid = function (query) {
         parameters['regions.destination'] = ObjectId(query['regionDest']);
 
     if (query['invoice'])
-        parameters['$or'] = [{ "invoice.all": query['invoice'] }, { "invoice.client": query['invoice'] }, { "invoice.partner": query['invoice'] }];
+        parameters['invoice.all'] = new RegExp(query['invoice'], 'i');
 
     if (query['from'] && query['to'])
         parameters['date'] = { "$gte": date.createLower(query['from']), "$lte": date.createUpper(query['to']) };

@@ -15,7 +15,7 @@ Controller.prototype.getAll = function (query) {
     var parameters = { "inputLocation": ObjectId(query['location']), "$or": [{ "payment.type": ObjectId(static.paid) }, { "confirmed": true }] };
 
     if (query['spbNumber'])
-        parameters['spbNumber'] = { $regex: new RegExp(query.spbNumber, 'i') };
+        parameters['spbNumber'] = { $regex: new RegExp(query['spbNumber'], 'i') };
 
     if (query['sender'])
         parameters['sender'] = ObjectId(query['sender']);
@@ -40,7 +40,7 @@ Controller.prototype.getAll = function (query) {
         parameters['regions.source'] = ObjectId(query['regionSource']);
 
     if (query['invoice'])
-        parameters['$or'] = [{ "invoice.all": query['invoice'] }, { "invoice.client": query['invoice'] }, { "invoice.partner": query['invoice'] }];
+        parameters['invoice.all'] = { $regex: new RegExp(query['invoice'], 'i') };
 
     if (query['paymentStatus'])
         parameters['payment.status'] = query['paymentStatus'];
