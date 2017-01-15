@@ -92,12 +92,16 @@ var app;
                 if (this.entities.length === 0)
                     return;
                 this.paging.page += 1;
+                this.query['limit'] = this.paging.max;
+                this.query['skip'] = (this.paging.page - 1) * this.paging.max;
                 this.load();
             };
             baseCtrl.prototype.prev = function () {
                 if ((this.paging.page - 1) <= 0)
                     return;
                 this.paging.page -= 1;
+                this.query['limit'] = this.paging.max;
+                this.query['skip'] = (this.paging.page - 1) * this.paging.max;
                 this.load();
             };
             baseCtrl.prototype.notify = function (type, message) {

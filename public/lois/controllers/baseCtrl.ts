@@ -115,6 +115,8 @@
                 return;
 
             this.paging.page += 1;
+            this.query['limit'] = this.paging.max;
+            this.query['skip'] = (this.paging.page - 1) * this.paging.max;
             this.load();
         }
 
@@ -123,6 +125,8 @@
                 return;
 
             this.paging.page -= 1;
+            this.query['limit'] = this.paging.max;
+            this.query['skip'] = (this.paging.page - 1) * this.paging.max;
             this.load();
         }
 
