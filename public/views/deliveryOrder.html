@@ -213,8 +213,10 @@
                         <div class="table-responsive" ng-show="ctrl.viewType == 2 && ctrl.selectedEntity.returned">
                             <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
                                 <thead>
+                                    <tr class="warning" style="color:black;">
+                                        <th colspan="5" style="text-align: center; width: 1%;"><strong>RETUR</strong></th>
+                                    </tr>
                                     <tr style="color:black;">
-                                        <th style="width: 1%;"><strong>Retur</strong></th>
                                         <th style="text-align: center; width: 6%;">Tgl Retur</th>
                                         <th style="text-align: center; width: 6%;">Penerima</th>
                                         <th style="text-align: center; width: 6%;">Ttd</th>
@@ -222,7 +224,6 @@
                                         <th style="text-align: center; width: 5%;">Kwitansi</th>
                                     </tr>
                                     <tr style="color:black;">
-                                        <td></td>
                                         <td>
                                             {{ctrl.selectedEntity.returnInfo.modified.date | date: 'yyyy-MM-dd hh:mm:ss'}}
                                         </td>
@@ -246,8 +247,10 @@
                         <div class="table-responsive" ng-show="ctrl.viewType == 2">
                             <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
                                 <thead>
+                                    <tr class="active" style="color:black;">
+                                        <th colspan="5" style="text-align: center; width: 1%;"><strong>PENGIRIMAN</strong></th>
+                                    </tr>
                                     <tr style="color:black;">
-                                        <th style="width: 1%;"><strong>Pengiriman</strong></th>
                                         <th style="text-align: center; width: 6%;">Tgl Kirim</th>
                                         <th style="text-align: center; width: 6%;">Coli</th>
                                         <th style="text-align: center; width: 6%;">Berat</th>
@@ -255,7 +258,6 @@
                                         <th style="text-align: center; width: 5%;">Kode Kirim</th>
                                     </tr>
                                     <tr style="color:black;" ng-repeat="delivery in ctrl.deliveryInfo">
-                                        <td></td>
                                         <td>
                                             {{delivery.items.deliveries.createdDate ? delivery.items.deliveries.createdDate : delivery.items.deliveries.date | date: 'yyyy-MM-dd hh:mm:ss'}}
                                         </td>
@@ -279,8 +281,10 @@
                         <div class="table-responsive" ng-show="ctrl.viewType == 2">
                             <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
                                 <thead>
+                                    <tr class="success" style="color:black;">
+                                        <th colspan="6" style="text-align: center; width: 1%;"><strong>REKAPITULASI</strong></th>
+                                    </tr>
                                     <tr style="color:black;">
-                                        <th style="width: 1%;"><strong>Rekapitulasi</strong></th>
                                         <th style="text-align: center; width: 6%;">Tgl Rekap</th>
                                         <th style="text-align: center; width: 6%;">Tgl Berangkat</th>
                                         <th style="text-align: center; width: 6%;">Coli</th>
@@ -289,7 +293,6 @@
                                         <th style="text-align: center; width: 5%;">Jenis Kereta</th>
                                     </tr>
                                     <tr style="color:black;" ng-repeat="recap in ctrl.recapitulationInfo">
-                                        <td></td>
                                         <td>
                                             {{recap.items.recapitulations.createdDate ? recap.items.recapitulations.createdDate : recap.items.recapitulations.date | date: 'yyyy-MM-dd hh:mm:ss'}}
                                         </td>
