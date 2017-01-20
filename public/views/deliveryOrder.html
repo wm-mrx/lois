@@ -225,7 +225,7 @@
                                     </tr>
                                     <tr style="color:black;">
                                         <td>
-                                            {{ctrl.selectedEntity.returnInfo.modified.date | date: 'yyyy-MM-dd hh:mm:ss'}}
+                                            {{ctrl.selectedEntity.returnInfo.modified.date | date: 'dd-MM-yyyy'}}
                                         </td>
                                         <td>
                                             {{ctrl.selectedEntity.returnInfo.concernedPerson}}
@@ -259,7 +259,7 @@
                                     </tr>
                                     <tr style="color:black;" ng-repeat="delivery in ctrl.deliveryInfo">
                                         <td>
-                                            {{delivery.items.deliveries.createdDate ? delivery.items.deliveries.createdDate : delivery.items.deliveries.date | date: 'yyyy-MM-dd hh:mm:ss'}}
+                                            {{delivery.items.deliveries.createdDate ? delivery.items.deliveries.createdDate : delivery.items.deliveries.date | date: 'dd-MM-yyyy'}}
                                         </td>
                                         <td>
                                             {{delivery.items.deliveries.quantity}}
@@ -294,10 +294,10 @@
                                     </tr>
                                     <tr style="color:black;" ng-repeat="recap in ctrl.recapitulationInfo">
                                         <td>
-                                            {{recap.items.recapitulations.createdDate ? recap.items.recapitulations.createdDate : recap.items.recapitulations.date | date: 'yyyy-MM-dd hh:mm:ss'}}
+                                            {{recap.items.recapitulations.createdDate ? recap.items.recapitulations.createdDate : recap.items.recapitulations.date | date: 'dd-MM-yyyy'}}
                                         </td>
                                         <td>
-                                            {{recap.items.recapitulations.departureDate | date: 'yyyy-MM-dd hh:mm:ss'}}
+                                            {{recap.items.recapitulations.departureDate | date: 'dd-MM-yyyy'}}
                                         </td>
                                         <td>
                                             {{recap.items.recapitulations.quantity}}
