@@ -525,7 +525,7 @@ Controller.prototype.getReturnsReport = function (viewModels, query, user) {
                 "partnerNumber": viewModel.returnInfo.relationCode,
                 "driver": drivers.length > 0 ? drivers[drivers.length - 1] : " ",
                 "car": vehicleNumbers.length > 0 ? vehicleNumbers.join(', ') : " ",
-                "date": deliveryDates.length > 0 ? deliveryDates.join(', ') : " ",
+                "deliveryDate": deliveryDates.length > 0 ? deliveryDates.join(', ') : " ",
                 "signature": viewModel.returnInfo.signed ? 'v' : 'x',
                 "stamp": viewModel.returnInfo.stamped ? 'v' : 'x',
                 "receivedBy": viewModel.returnInfo.concernedPerson,
