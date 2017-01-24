@@ -40,7 +40,7 @@ router.get(config.api + 'reportData/getDeliveries', auth.isAuthenticated, functi
 
 router.post(config.api + 'reportData/getDeliveriesReport', auth.isAuthenticated, function (req, res) {
     var query = JSON.parse(req.query['query']);
-    controller.getDeliveriesReport(req.body, req.session.user).then(function (result) {
+    controller.getDeliveriesReport(req.body, query, req.session.user).then(function (result) {
         res.status(200).send(result);
     }).catch(function (error) {
         res.status(500).send(error.message);

@@ -150,6 +150,8 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
         "location": user.location.name,
         "user": user.name,
         "date": new Date(),
+        "dateFrom": query['from'],
+        "dateTo": query['to'],
         "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'INVOICE', 'DATE'],
         "rows": []
     };
@@ -177,15 +179,6 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
             result['regionSource'] = regionSource ? regionSource.name : " ";
         }
         else result['regionSource'] = "";
-
-        if (query['from'] && query['to']) {
-            result['dateFrom'] = query['from'];
-            result['dateTo'] = query['to'];
-        }
-        else {
-            result['dateFrom'] = "";
-            result['dateTo'] = "";
-        }
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
@@ -418,7 +411,7 @@ Controller.prototype.getDeliveries = function (query) {
     ]).exec();
 };
 
-Controller.prototype.getDeliveriesReport = function (viewModels, user) {
+Controller.prototype.getDeliveriesReport = function (viewModels, query, user) {
     var self = this;
 
     var result = {
@@ -428,12 +421,23 @@ Controller.prototype.getDeliveriesReport = function (viewModels, user) {
         "user": user.name,
         "date": viewModels[0].items.deliveries.date ? viewModels[0].items.deliveries.date : viewModels[0].items.deliveries.createdDate ? viewModels[0].items.deliveries.createdDate : '',
         "driver": null,
+        "deliveryDate": query['deliveryDate'],
+        "carFilter": query['vehicleNumber'],
         "car": null,
         "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'ADDRESS', 'PHONE', 'CONTENT', 'QTY', 'TOTAL QTY', 'DELIVERY', 'PAYMENT', 'REMARKS'],
-        "rows": []
+        "rows": [],
+        "destinations": []
     };
 
     return co(function* () {
+
+        if (query['driver']) {
+            var driverFilter = yield schemas.drivers.findOne({ "_id": ObjectId(query['driver']) }).exec();
+            result['driverFilter'] = driverFilter.name;
+        }
+        else
+            result['driverFilter'] = '';
+
         yield* _co.coEach(viewModels, function* (viewModel) {
             var driver = yield schemas.drivers.findOne({ _id: ObjectId(viewModel.items.deliveries.driver) });
 
@@ -476,6 +480,13 @@ Controller.prototype.getDeliveriesReport = function (viewModels, user) {
                 "notes": '',
                 "paymentMethod": viewModel.paymentType[0].name
             });
+
+            var destination = yield schemas.locations.findOne({ _id: ObjectId(viewModel.destination) });
+            if (destination)
+                result.destinations.push(
+                    destination.name
+                );
+
         });
 
         return result;
