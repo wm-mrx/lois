@@ -53,6 +53,8 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
         "user": user.name,
         "reportDate": query['paymentDate'],
         "reportBank": query['bank'],
+        "dateFrom": query['from'],
+        "dateTo": query['to'],
         "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'BANK', 'INVOICE'],
         "rows": []
     };
@@ -61,11 +63,18 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
         var sumTotalColli = 0;
         var sumTotalWeight = 0;
         var sumPrice = 0;
-        var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
-        result['paymentMethod'] = paymentType ? paymentType.name : " ";
 
-        var regionSource = yield schemas.regions.findOne({ "_id": ObjectId(query['regionSource']) }).exec();
-        result['regionSource'] = regionSource ? regionSource.name : " ";
+        if (query['paymentType']) {
+            var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
+            result['paymentMethod'] = paymentType ? paymentType.name : " ";
+        }
+        else result['paymentMethod'] = "";
+
+        if (query['regionSource']) {
+            var regionSource = yield schemas.regions.findOne({ "_id": ObjectId(query['regionSource']) }).exec();
+            result['regionSource'] = regionSource ? regionSource.name : " ";
+        }
+        else result['regionSource'] = "";
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
@@ -105,7 +114,8 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
 Controller.prototype.getUnpaid = function (query) {
     var limit = query['limit'] ? query['limit'] : 10;
     var skip = query['skip'] ? query['skip'] : 0;
-    var parameters = { "inputLocation": ObjectId(query['location']), "payment.status": { $ne: 'Terbayar' }, "sender": { "$ne": ObjectId(static.client) } };
+    //var parameters = { "inputLocation": ObjectId(query['location']), "payment.status": { $ne: 'Terbayar' }, "sender": { "$ne": ObjectId(static.client) } };
+    var parameters = { "payment.status": { $ne: 'Terbayar' }, "sender": { "$ne": ObjectId(static.client) } };
 
     if (query['spbNumber'])
         parameters['spbNumber'] = new RegExp(query['spbNumber'], 'i');
@@ -115,6 +125,9 @@ Controller.prototype.getUnpaid = function (query) {
 
     if (query['sender'])
         parameters['sender'] = ObjectId(query['sender']);
+
+    if (query['regionSource'])
+        parameters['regions.source'] = ObjectId(query['regionSource']);
 
     if (query['regionDest'])
         parameters['regions.destination'] = ObjectId(query['regionDest']);
@@ -153,8 +166,26 @@ Controller.prototype.getUnpaidReport = function (viewModels, query, user) {
         else
             result['destination'] = '';    
 
-        var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
-        result['paymentMethod'] = paymentType ? paymentType.name : " ";
+        if (query['paymentType']) {
+            var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
+            result['paymentType'] = paymentType ? paymentType.name : " ";
+        }
+        else result['paymentType'] = '';
+
+        if (query['regionSource']) {
+            var regionSource = yield schemas.regions.findOne({ "_id": ObjectId(query['regionSource']) }).exec();
+            result['regionSource'] = regionSource ? regionSource.name : " ";
+        }
+        else result['regionSource'] = "";
+
+        if (query['from'] && query['to']) {
+            result['dateFrom'] = query['from'];
+            result['dateTo'] = query['to'];
+        }
+        else {
+            result['dateFrom'] = "";
+            result['dateTo'] = "";
+        }
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
