@@ -12,7 +12,8 @@ function Controller() {};
 Controller.prototype.getPaid = function (query) {
     var limit = query['limit'] ? query['limit'] : 10;
     var skip = query['skip'] ? query['skip'] : 0;
-    var parameters = { "inputLocation": ObjectId(query['location']), "payment.status": 'Terbayar' };
+    //var parameters = { "inputLocation": ObjectId(query['location']), "payment.status": 'Terbayar' };
+    var parameters = {  "payment.status": 'Terbayar' };
 
     if (query['spbNumber'])
         parameters['spbNumber'] = new RegExp(query['spbNumber'], 'i');
@@ -22,6 +23,9 @@ Controller.prototype.getPaid = function (query) {
 
     if (query['sender'])
         parameters['sender'] = ObjectId(query['sender']);
+
+    if (query['regionSource'])
+        parameters['regions.source'] = ObjectId(query['regionSource']);
 
     if (query['bank'])
         parameters['payment.phases.bank'] = new RegExp(query['bank'], 'i');
@@ -47,7 +51,7 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
         "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "reportDate": query['transferDate'],
+        "reportDate": query['paymentDate'],
         "reportBank": query['bank'],
         "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'BANK', 'INVOICE'],
         "rows": []
@@ -58,8 +62,10 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
         var sumTotalWeight = 0;
         var sumPrice = 0;
         var paymentType = yield schemas.paymentTypes.findOne({ "_id": ObjectId(query['paymentType']) }).exec();
-
         result['paymentMethod'] = paymentType ? paymentType.name : " ";
+
+        var regionSource = yield schemas.regions.findOne({ "_id": ObjectId(query['regionSource']) }).exec();
+        result['regionSource'] = regionSource ? regionSource.name : " ";
 
         yield* _co.coEach(viewModels, function* (viewModel) {
             var totalWeight = _.sumBy(viewModel.items, 'dimensions.weight');
