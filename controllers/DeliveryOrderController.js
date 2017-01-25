@@ -33,6 +33,18 @@ Controller.prototype.getAll = function (query) {
     if (query['paymentType'])
         parameters['payment.type'] = ObjectId(query['paymentType']);
 
+    if (query['transactionStatus']) {
+        if (query['transactionStatus'] == 'SJ Balik')
+            parameters['confirmed'] = true;
+        else if (query['transactionStatus'] == 'Retur')
+            parameters['returned'] = true;
+        else {
+            parameters['confirmed'] = false;
+            parameters['returned'] = false;
+            parameters['items.status'] = query['transactionStatus'];
+        }
+    }
+
     if (query['receiverName'])
         parameters['receiver.name'] = new RegExp(query['receiverName'], 'i');
 
