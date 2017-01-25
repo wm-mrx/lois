@@ -784,7 +784,7 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
         "startDate": query['from'],
         "endDate": query['to'],
         "paymentStatus": query['paymentStatus'],
-        "headers": ['NO', 'DATE', 'SPB NO.', 'QTY', 'WEIGHT', 'COST', 'ADDITIONAL CHARGES', 'PORTEL FEE', 'PPH 23', 'PPN 10%', 'TOTAL'],
+        "headers": ['NO', 'DATE', 'SPB NO.', 'QTY', 'WEIGHT', 'COST', 'ADDITIONAL CHARGES', 'PORTER FEE', 'PPH 23', 'PPN 10%', 'TOTAL'],
         "rows": []
     };
 
