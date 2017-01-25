@@ -51,7 +51,7 @@ Controller.prototype.getPaidReport = function (viewModels, query, user) {
         "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
-        "reportDate": query['paymentDate'],
+        "reportDate": query['transferDate'],
         "reportBank": query['bank'],
         "dateFrom": query['from'],
         "dateTo": query['to'],
