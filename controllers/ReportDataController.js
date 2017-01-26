@@ -527,7 +527,7 @@ Controller.prototype.getReturnsReport = function (viewModels, query, user) {
         "location": user.location.name,
         "user": user.name,
         "date": query['returnDate'] ? query['returnDate'] : null,
-        "headers": ['NO', 'SPB NO.', 'SENDER', 'DELIVERY', 'RELATION NO.', 'LIMAS', 'RELATION', 'DRIVER', 'RECEIVED DATE', 'RECEIVED BY', 'SIGNATURE', 'STAMP', 'RECEIPT'],
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'DELIVERY', 'RELATION NO.', 'LIMAS', 'RELATION', 'DRIVER', 'RECEIVED DATE', 'RECEIVED BY', 'SIGN', 'STAMP', 'RECEIPT'],
         "rows": []
     };
 
