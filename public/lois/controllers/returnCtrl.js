@@ -10,11 +10,10 @@ var app;
         var returnCtrl = (function (_super) {
             __extends(returnCtrl, _super);
             function returnCtrl($scope, Notification) {
-                var _this = _super.call(this, Notification) || this;
-                _this.functions.load = app.api._return.getAll;
-                _this.functions.autocomplete = app.api.autocomplete.getAll;
-                _this.filter();
-                return _this;
+                _super.call(this, Notification);
+                this.functions.load = app.api._return.getAll;
+                this.functions.autocomplete = app.api.autocomplete.getAll;
+                this.filter();
             }
             returnCtrl.prototype.upload = function (file, entity) {
                 var fd = new FormData();
@@ -42,9 +41,9 @@ var app;
                     ctrl.notify('error', 'Proses retur gagal ' + error.data);
                 });
             };
+            returnCtrl.$inject = ['$scope', 'Notification'];
             return returnCtrl;
         }(controllers.baseCtrl));
-        returnCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('returnCtrl', returnCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

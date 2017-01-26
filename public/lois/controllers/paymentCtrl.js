@@ -16,12 +16,11 @@ var app;
         var paymentCtrl = (function (_super) {
             __extends(paymentCtrl, _super);
             function paymentCtrl($scope, Notification) {
-                var _this = _super.call(this, Notification) || this;
-                _this.viewType = ViewType.payment;
-                _this.functions.load = app.api.payment.getAll;
-                _this.functions.autocomplete = app.api.autocomplete.getAll;
-                _this.filter();
-                return _this;
+                _super.call(this, Notification);
+                this.viewType = ViewType.payment;
+                this.functions.load = app.api.payment.getAll;
+                this.functions.autocomplete = app.api.autocomplete.getAll;
+                this.filter();
             }
             paymentCtrl.prototype.pay = function () {
                 var _this = this;
@@ -40,7 +39,7 @@ var app;
                         shippingId: entity._id,
                         bank: entity.viewModel.bank,
                         notes: entity.viewModel.notes,
-                        amount: entity.viewModel.amount,
+                        amount: entity.viewModel.amount || 0,
                         transferDate: _this.date,
                         paymentTypeId: _this.paymentType ? _this.paymentType._id : entity.payment.type._id
                     });
@@ -146,9 +145,9 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
+            paymentCtrl.$inject = ['$scope', 'Notification'];
             return paymentCtrl;
         }(controllers.baseCtrl));
-        paymentCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('paymentCtrl', paymentCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

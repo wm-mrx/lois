@@ -39,7 +39,7 @@
                   shippingId: entity._id,
                   bank: entity.viewModel.bank,
                   notes: entity.viewModel.notes,
-                  amount: entity.viewModel.amount,
+                  amount: entity.viewModel.amount || 0,
                   transferDate: this.date,
                   paymentTypeId: this.paymentType ? this.paymentType._id : entity.payment.type._id
                 });
