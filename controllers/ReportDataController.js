@@ -862,12 +862,34 @@ Controller.prototype.getCommisionsReport = function (viewModels, query, user) {
 Controller.prototype.getPayOff = function (query) {
     var limit = query['limit'] ? query['limit'] : 10;
     var skip = query['skip'] ? query['skip'] : 0;
-    var parameters = { "inputLocation": ObjectId(query['location']), "sender": { "$ne": ObjectId(static.client) }, "payment.type": ObjectId("57c46a80398059b414b3784f") };
+    var parameters = { "inputLocation": ObjectId(query['location']), "sender": { "$ne": ObjectId(static.client) } };
 
-    if (query['from'])
+    if (query['from'] && !query['to'])
         parameters['date'] = { "$gte": date.createLower(query['from']), "$lte": date.createUpper(query['from']) };
 
-    return schemas.shippings.find(parameters).sort({ "number": 1 }).populate('sender destination regions.destination payment.type').skip(skip).limit(limit).exec();
+    else if (query['from'] && query['to'])
+        parameters['date'] = { "$gte": date.createLower(query['from']), "$lte": date.createUpper(query['to']) };
+
+    if (query['transactionStatus'] === "Belum Terekap") {
+        return schemas.shippings.aggregate([
+            { "$match": parameters },
+            { "$match": { "items": { "$elemMatch": { "colli.available": { "$gt": 0 } } } } },
+            { "$sort": { "number": -1 } },
+            { "$unwind": "$items" },
+            { "$match": { "items.colli.available": { "$gt": 0 } } },
+
+            { "$lookup": { "from": "clients", "localField": "sender", "foreignField": "_id", "as": "sender" } },
+            { "$lookup": { "from": "regions", "localField": "regions.destination", "foreignField": "_id", "as": "regions.destination" } },
+            { "$lookup": { "from": "locations", "localField": "destination", "foreignField": "_id", "as": "destination" } },
+            { "$lookup": { "from": "paymentTypes", "localField": "payment.type", "foreignField": "_id", "as": "payment.type" } },
+
+            { "$skip": skip },
+            { "$limit": limit }
+        ]).exec();
+    } else {
+        parameters['payment.type'] = ObjectId("57c46a80398059b414b3784f");
+        return schemas.shippings.find(parameters).sort({ "number": 1 }).populate('sender destination regions.destination payment.type').skip(skip).limit(limit).exec();
+    }
 };
 
 Controller.prototype.getPayOffReport = function (viewModels, query, user) {
@@ -879,7 +901,7 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
         "location": user.location.name,
         "user": user.name,
         "startDate": query['from'],
-        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'DESTINATION', 'DESTINATION REGION', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'DATE'],
+        "headers": ['NO', 'SPB NO.', 'SENDER', 'RECEIVER', 'DESTINATION', 'REGION', 'CONTENT', 'QTY', 'WEIGHT', 'DELIVERY', 'PAYMENT', 'DATE'],
         "rows": []
     };
 
@@ -893,17 +915,23 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
             var contents = _.map(viewModel.items, "content");
 
+            if (query['transactionStatus'] === "Belum Terekap") {
+                totalWeight = viewModel.weight;
+                totalColli = viewModel.colli;
+                contents = _.map(viewModel.items, "content");
+            }
+
             result.rows.push({
                 "spbNumber": viewModel.spbNumber,
-                "sender": viewModel.sender.name,
+                "sender": viewModel.sender.name ? viewModel.sender.name : viewModel.sender[0].name,
                 "receiver": viewModel.receiver.name,
-                "destinationRegion": viewModel.regions.destination.name,
-                "destination": viewModel.destination.name,
+                "destinationRegion": viewModel.regions.destination.name ? viewModel.regions.destination.name : viewModel.regions.destination[0].name,
+                "destination": viewModel.destination.name ? viewModel.destination.name : viewModel.destination[0].name,
                 "content": contents.length > 0 ? contents.join(', ') : " ",
                 "totalColli": totalColli,
                 "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
-                "paymentMethod": viewModel.payment.type.name,
+                "paymentMethod": viewModel.payment.type.name ? viewModel.payment.type.name : viewModel.payment.type[0].name,
                 "transactionDate": viewModel.date
             });
 

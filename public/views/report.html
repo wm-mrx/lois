@@ -646,9 +646,22 @@
                                                         <input type="text" placeholder="Spb" ng-model="ctrl.filters.spbNumber" />
                                                     </label>
                                                 </section>
-                                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                                <section class="col col-sm-12 col-md-12 col-lg-3">
                                                     <label class="input">
-                                                        <input type="text" placeholder="No mobil" ng-model="ctrl.filters.vehicleNumber" />
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            <input datepicker class="form-control" placeholder="Dari Tanggal"
+                                                                   id="from-transaction-date-recap" type="text" ng-model="ctrl.filters.from" />
+                                                        </div>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-3">
+                                                    <label class="input">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            <input datepicker class="form-control" placeholder="Sampai Tanggal"
+                                                                   id="to-transaction-date-recap" type="text" ng-model="ctrl.filters.to" />
+                                                        </div>
                                                     </label>
                                                 </section>
                                                 <section class="col col-sm-12 col-md-12 col-lg-3">
@@ -713,22 +726,9 @@
                                                         <i ng-show="driverFilter" class="glyphicon glyphicon-refresh"></i>
                                                     </label>
                                                 </section>
-                                                <section class="col col-sm-12 col-md-12 col-lg-3">
+                                                <section class="col col-sm-12 col-md-12 col-lg-6">
                                                     <label class="input">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            <input datepicker class="form-control" placeholder="Dari Tanggal"
-                                                                   id="from-transaction-date-recap" type="text" ng-model="ctrl.filters.from" />
-                                                        </div>
-                                                    </label>
-                                                </section>
-                                                <section class="col col-sm-12 col-md-12 col-lg-3">
-                                                    <label class="input">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            <input datepicker class="form-control" placeholder="Sampai Tanggal"
-                                                                   id="to-transaction-date-recap" type="text" ng-model="ctrl.filters.to" />
-                                                        </div>
+                                                        <input type="text" placeholder="No mobil" ng-model="ctrl.filters.vehicleNumber" />
                                                     </label>
                                                 </section>
                                             </div>
@@ -1267,15 +1267,32 @@
                                         <legend>Filter data</legend>
                                         <fieldset>
                                             <div class="row">                                               
-                                                <section class="col col-sm-12 col-md-12 col-lg-12">
+                                                <section class="col col-sm-12 col-md-12 col-lg-4">
                                                     <label class="input">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            <input datepicker class="form-control" placeholder="Tanggal"
-                                                                   id="from-transaction-date-delivery-list" type="text" ng-model="ctrl.filters.from" />
+                                                            <input datepicker class="form-control" placeholder="Dari Tanggal"
+                                                                   id="from-transaction-date-payoff" type="text" ng-model="ctrl.filters.from" />
                                                         </div>
                                                     </label>
-                                                </section>                                   
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-4">
+                                                    <label class="input">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            <input datepicker class="form-control" placeholder="Sampai Tanggal"
+                                                                   id="to-transaction-date-payoff" type="text" ng-model="ctrl.filters.to" />
+                                                        </div>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-sm-12 col-md-12 col-lg-4">
+                                                    <label class="input">
+                                                        <select class="form-control" ng-model="ctrl.filters.transactionStatus">
+                                                            <option value="">&nbsp Lunas</option>
+                                                            <option value="Belum Terekap">&nbsp Belum Terekap</option>
+                                                        </select>
+                                                    </label>
+                                                </section>                                 
                                             </div>
                                         </fieldset>
                                     </form>
@@ -1329,10 +1346,10 @@
                                                     <input type="checkbox" ng-model="entity.checked" />
                                                 </td>
                                                 <td> {{entity.spbNumber}} </td>
-                                                <td> {{entity.sender.name}} </td>
+                                                <td> {{entity.sender.name ? entity.sender.name : entity.sender[0].name}} </td>
                                                 <td> {{entity.receiver.name}}</td>
                                                 <td> {{entity.colli}}</td>
-                                                <td> {{entity.regions.destination.name}}</td>
+                                                <td> {{entity.regions.destination.name ? entity.regions.destination.name : entity.regions.destination[0].name}}</td>
                                                 <td> {{entity.cost.total | currency: 'Rp ' : 2}} </td>
                                             </tr>
                                         </tbody>
@@ -1367,7 +1384,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             <input datepicker class="form-control" placeholder="Dari Tanggal"
-                                                                   id="from-transaction-date-confirm" type="text" ng-model="ctrl.filters.from" />
+                                                                   id="from-transaction-date-partner" type="text" ng-model="ctrl.filters.from" />
                                                         </div>
                                                     </label>
                                                 </section>
@@ -1376,7 +1393,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             <input datepicker class="form-control" placeholder="Sampai Tanggal"
-                                                                   id="to-transaction-date-confirm" type="text" ng-model="ctrl.filters.to" />
+                                                                   id="to-transaction-date-partner" type="text" ng-model="ctrl.filters.to" />
                                                         </div>
                                                     </label>
                                                 </section>
