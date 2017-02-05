@@ -16,12 +16,11 @@ var app;
         var recapitulationCtrl = (function (_super) {
             __extends(recapitulationCtrl, _super);
             function recapitulationCtrl($scope, Notification) {
-                var _this = _super.call(this, Notification) || this;
-                _this.functions.load = app.api.recapitulation.getAll;
-                _this.functions.autocomplete = app.api.autocomplete.getAll;
-                _this.filterType = FilterType.recap;
-                _this.filter();
-                return _this;
+                _super.call(this, Notification);
+                this.functions.load = app.api.recapitulation.getAll;
+                this.functions.autocomplete = app.api.autocomplete.getAll;
+                this.filterType = FilterType.recap;
+                this.filter();
             }
             recapitulationCtrl.prototype.load = function () {
                 var ctrl = this;
@@ -37,6 +36,7 @@ var app;
                         e['viewModel']['relationColor'] = null;
                         e['viewModel']['notes'] = null;
                         e['viewModel']['quantity'] = ctrl.filterType === FilterType.recap ? e.items.colli.available : e.items.recapitulations.available;
+                        e['viewModel']['weight'] = e.items.dimensions.weight;
                     });
                 }).catch(function (error) {
                     ctrl.notify('error', error.data);
@@ -72,6 +72,21 @@ var app;
                 if (checkedEntities.length === 0) {
                     this.notify('warning', 'Tidak ada item yang dipilih');
                     return;
+                }
+                var data = checkedEntities.map(function (e) { return e.viewModel; });
+                for (var i = 0; i < data.length; i++) {
+                    if (!data[i]['limasColor'] || data[i]['limasColor'] === "") {
+                        this.notify('warning', 'Warna limas tidak boleh kosong');
+                        return;
+                    }
+                    if (!data[i]['relationColor'] || data[i]['relationColor'] === "") {
+                        this.notify('warning', 'Warna relasi tidak boleh kosong');
+                        return;
+                    }
+                    if (!data[i]['quantity'] || data[i]['quantity'] === "") {
+                        this.notify('warning', 'Quantity tidak boleh kosong');
+                        return;
+                    }
                 }
                 var viewModels = [];
                 checkedEntities.forEach(function (entity) {
@@ -161,9 +176,9 @@ var app;
                     ctrl.loadingData = false;
                 });
             };
+            recapitulationCtrl.$inject = ['$scope', 'Notification'];
             return recapitulationCtrl;
         }(controllers.baseCtrl));
-        recapitulationCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('recapitulationCtrl', recapitulationCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

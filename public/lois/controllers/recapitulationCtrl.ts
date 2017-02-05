@@ -34,6 +34,7 @@
                     e['viewModel']['relationColor'] = null;
                     e['viewModel']['notes'] = null;
                     e['viewModel']['quantity'] = ctrl.filterType === FilterType.recap ? e.items.colli.available : e.items.recapitulations.available;
+                    e['viewModel']['weight'] = e.items.dimensions.weight ;
                 });
             }).catch(error => {
                 ctrl.notify('error', error.data);
@@ -75,6 +76,23 @@
             if (checkedEntities.length === 0) {
                 this.notify('warning', 'Tidak ada item yang dipilih');
                 return;
+            }
+
+            var data = checkedEntities.map(e => e.viewModel);
+
+            for (var i = 0; i < data.length; i++) {
+                if (!data[i]['limasColor'] || data[i]['limasColor'] === "") {
+                    this.notify('warning', 'Warna limas tidak boleh kosong');
+                    return;
+                }
+                if (!data[i]['relationColor'] || data[i]['relationColor'] === "") {
+                    this.notify('warning', 'Warna relasi tidak boleh kosong');
+                    return;
+                }
+                if (!data[i]['quantity'] || data[i]['quantity'] === "") {
+                    this.notify('warning', 'Quantity tidak boleh kosong');
+                    return;
+                }
             }
 
             var viewModels = [];
