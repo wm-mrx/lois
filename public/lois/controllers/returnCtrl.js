@@ -34,6 +34,24 @@ var app;
                 }
                 var ctrl = this;
                 var data = checkedEntities.map(function (e) { return e.shipping[0]; });
+                for (var i = 0; i < data.length; i++) {
+                    if (!data[i]['returnInfo']['limasColor'] || data[i]['returnInfo']['limasColor'] === "") {
+                        this.notify('warning', 'Warna limas tidak boleh kosong');
+                        return;
+                    }
+                    if (!data[i]['returnInfo']['relationColor'] || data[i]['returnInfo']['relationColor'] === "") {
+                        this.notify('warning', 'Warna relasi tidak boleh kosong');
+                        return;
+                    }
+                    if (!data[i]['returnInfo']['relationCode'] || data[i]['returnInfo']['relationCode'] === "") {
+                        this.notify('warning', 'Kode relasi tidak boleh kosong');
+                        return;
+                    }
+                    if (!data[i]['returnInfo']['concernedPerson'] || data[i]['returnInfo']['concernedPerson'] === "") {
+                        this.notify('warning', 'Nama penerima tidak boleh kosong');
+                        return;
+                    }
+                }
                 app.api._return.return(data).then(function (result) {
                     ctrl.notify('success', 'Proses retur berhasil');
                     ctrl.filter();
