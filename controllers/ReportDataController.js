@@ -753,7 +753,8 @@ Controller.prototype.getCommisions = function (query) {
         parameters['regions.destination'] = ObjectId(query['locationRegion']);
     }
     else
-        parameters['inputLocation'] = ObjectId(query['location']);
+        //parameters['inputLocation'] = ObjectId(query['location']);
+        parameters['regions.source'] = ObjectId(query['locationRegion']);
 
     if (query['spbNumber'])
         parameters['spbNumber'] = new RegExp(query['spbNumber'], 'i');
