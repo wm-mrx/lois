@@ -162,7 +162,7 @@ Controller.prototype.calculateCost = function (item, tariff, quota, option) {
             if (dimensions.weight > quota)
                 return minimum + ((dimensions.weight - quota) * price) - (colli - 1) * colliCost - cost.discount + cost.additional;
 
-            return 0;
+            return minimum - cost.discount + colliCost + cost.additional;
 
         case static.freeoncharge:
             return 0;
