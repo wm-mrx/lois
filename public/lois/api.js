@@ -325,84 +325,84 @@ var app;
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/deliveryOrder', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/deliveryOrder', JSON.stringify(data), config);
             };
             reportPrint.printPaid = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/paid', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/paid', JSON.stringify(data), config);
             };
             reportPrint.printUnpaid = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/unpaid', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/unpaid', JSON.stringify(data), config);
             };
             reportPrint.printRecapitulation = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/recapitulation', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/recapitulation', JSON.stringify(data), config);
             };
             reportPrint.printDelivery = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/delivery', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/delivery', JSON.stringify(data), config);
             };
             reportPrint.printReturn = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/retur', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/retur', JSON.stringify(data), config);
             };
             reportPrint.printUnconfirmed = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/sj-balik', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/sj-balik', JSON.stringify(data), config);
             };
             reportPrint.printDeliveryList = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/deliveryList', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/deliveryList', JSON.stringify(data), config);
             };
             reportPrint.printCommision = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/commision', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/commision', JSON.stringify(data), config);
             };
             reportPrint.printGetPayOff = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/pay-off', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/pay-off', JSON.stringify(data), config);
             };
             reportPrint.printPartner = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/partner', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/partner', JSON.stringify(data), config);
             };
             reportPrint.printInvoice = function (data) {
                 var config = {
                     "headers": { "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     "responseType": "arraybuffer"
                 };
-                return app.http.post('http://lois.limassentosa.net/index.php/invoice', JSON.stringify(data), config);
+                return app.http.post('http://lois.limassentosa.co.id/index.php/invoice', JSON.stringify(data), config);
             };
             return reportPrint;
         }());

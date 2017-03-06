@@ -338,7 +338,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/deliveryOrder', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/deliveryOrder', JSON.stringify(data), config);
         }
 
         static printPaid(data: any) {
@@ -347,7 +347,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/paid', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/paid', JSON.stringify(data), config);
         }
 
         static printUnpaid(data: any) {
@@ -356,7 +356,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/unpaid', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/unpaid', JSON.stringify(data), config);
         }
 
         static printRecapitulation(data: any) {
@@ -365,7 +365,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/recapitulation', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/recapitulation', JSON.stringify(data), config);
         }
 
         static printDelivery(data: any) {
@@ -374,7 +374,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/delivery', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/delivery', JSON.stringify(data), config);
         }
 
         static printReturn(data: any) {
@@ -383,7 +383,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/retur', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/retur', JSON.stringify(data), config);
         }
 
         static printUnconfirmed(data: any) {
@@ -392,7 +392,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/sj-balik', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/sj-balik', JSON.stringify(data), config);
         }
 
         static printDeliveryList(data: any) {
@@ -401,7 +401,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/deliveryList', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/deliveryList', JSON.stringify(data), config);
         }
 
         static printCommision(data: any) {
@@ -410,7 +410,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/commision', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/commision', JSON.stringify(data), config);
         }
 
         static printGetPayOff(data: any) {
@@ -419,7 +419,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/pay-off', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/pay-off', JSON.stringify(data), config);
         }
 
         static printPartner(data: any) {
@@ -428,7 +428,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/partner', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/partner', JSON.stringify(data), config);
         }
 
         static printInvoice(data: any) {
@@ -437,7 +437,7 @@
                 "responseType": "arraybuffer"
             };
 
-            return app.http.post('http://lois.limassentosa.net/index.php/invoice', JSON.stringify(data), config);
+            return app.http.post('http://lois.limassentosa.co.id/index.php/invoice', JSON.stringify(data), config);
         }
     }
 }
