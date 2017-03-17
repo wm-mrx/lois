@@ -52,7 +52,10 @@ var app;
                 this.loadItemStatuses();
                 this.loadBarChartData();
                 this.loadOverall();
-                this.onSummaryChanges('destination');
+                if (this.summary)
+                    this.onSummaryChanges(this.summary);
+                else
+                    this.onSummaryChanges('destination');
             };
             homeCtrl.prototype.loadItemStatuses = function () {
                 var ctrl = this;
