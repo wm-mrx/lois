@@ -133,7 +133,7 @@
                                     <thead>
                                         <tr style="color:black;">
                                             <th style="text-align: center; width: 1%;">No</th>
-                                            <th id="dynamicHeader" style="text-align: center; width: 15%;">Tujuan</th>
+                                            <th id="dynamicHeader" style="text-align: center; width: 15%;">Item</th>
                                             <th style="text-align: center; width: 3%;">koli</th>
                                             <th style="text-align: center; width: 3%;">Berat</th>
                                             <th style="text-align: center; width: 5%;">Bea Angkut</th>
@@ -245,6 +245,7 @@
                                             <th style="text-align: center; width: 3%;">Berat</th>
                                             <th style="text-align: center; width: 5%;">Harga</th>
                                             <th style="text-align: center; width: 10%;">Cara Bayar</th>
+                                            <th style="text-align: center; width: 3%;">Item</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -263,6 +264,7 @@
                                             <td> {{entity.weight}} </td>
                                             <td> {{entity.cost.total | currency: 'Rp. ' : 2}} </td>
                                             <td> {{entity.payment.type.name}} </td>
+                                            <td> {{(entity.items).length}} </td>
                                         </tr>
                                     </tbody>
                                 </table>

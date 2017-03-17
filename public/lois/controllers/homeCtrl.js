@@ -30,22 +30,21 @@ var app;
         var homeCtrl = (function (_super) {
             __extends(homeCtrl, _super);
             function homeCtrl($scope, Notification) {
-                var _this = _super.call(this, Notification) || this;
+                _super.call(this, Notification);
                 var dates = new Date();
                 var dd = dates.getDate();
                 var mm = dates.getMonth() + 1;
                 var yyyy = dates.getFullYear();
                 var ToDate = yyyy + '-' + mm + '-' + dd;
-                _this.filters.date = ToDate;
-                _this.terekap = 0;
-                _this.belumTerekap = 0;
-                _this.terkirim = 0;
-                _this.initHighchart();
-                _this.viewType = ViewType.summary;
-                _this.summaryType = SummaryType.table;
-                _this.chartConfig = {};
-                _this.filter();
-                return _this;
+                this.filters.date = ToDate;
+                this.terekap = 0;
+                this.belumTerekap = 0;
+                this.terkirim = 0;
+                this.initHighchart();
+                this.viewType = ViewType.summary;
+                this.summaryType = SummaryType.table;
+                this.chartConfig = {};
+                this.filter();
             }
             homeCtrl.prototype.filter = function () {
                 this.paging.page = 1;
@@ -300,17 +299,20 @@ var app;
                     case 'paymentType':
                         this.summaryType = SummaryType.table;
                         this.functions.load = app.api.home.getPaymentTypes;
-                        this.type = 'payment.type';
+                        //this.type = 'payment.type';
+                        this.type = 'paymentType';
                         break;
                     case 'paymentStatus':
                         this.summaryType = SummaryType.table;
                         this.functions.load = app.api.home.getPaymentStatuses;
-                        this.type = 'payment.status';
+                        //this.type = 'payment.status';
+                        this.type = 'paymentStatus';
                         break;
                     case 'region':
                         this.summaryType = SummaryType.table;
                         this.functions.load = app.api.home.getRegions;
-                        this.type = 'regions.destination';
+                        //this.type = 'regions.destination';
+                        this.type = 'regionDest';
                         break;
                     case 'priceBar':
                         this.summaryType = SummaryType.chart;
@@ -340,7 +342,9 @@ var app;
                 this.functions.load = app.api.home.getAll;
                 this.viewType = ViewType.detail;
                 this.paging.page = 1;
-                this.filter();
+                //this.filter();
+                this.createQuery();
+                this.load();
             };
             homeCtrl.prototype.viewSummary = function () {
                 delete this.filters[this.type];
@@ -389,9 +393,9 @@ var app;
                     useHighStocks: true,
                 };
             };
+            homeCtrl.$inject = ['$scope', 'Notification'];
             return homeCtrl;
         }(controllers.baseCtrl));
-        homeCtrl.$inject = ['$scope', 'Notification'];
         app.lois.controller('homeCtrl', homeCtrl);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));

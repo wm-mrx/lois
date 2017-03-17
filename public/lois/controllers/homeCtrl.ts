@@ -335,17 +335,20 @@
                 case 'paymentType':
                     this.summaryType = SummaryType.table;
                     this.functions.load = app.api.home.getPaymentTypes;
-                    this.type = 'payment.type';
+                    //this.type = 'payment.type';
+                    this.type = 'paymentType';
                     break;
                 case 'paymentStatus':
                     this.summaryType = SummaryType.table;
                     this.functions.load = app.api.home.getPaymentStatuses;
-                    this.type = 'payment.status';
+                    //this.type = 'payment.status';
+                    this.type = 'paymentStatus';
                     break;
                 case 'region':
                     this.summaryType = SummaryType.table;
                     this.functions.load = app.api.home.getRegions;
-                    this.type = 'regions.destination';
+                    //this.type = 'regions.destination';
+                    this.type = 'regionDest';
                     break;
                 case 'priceBar':
                     this.summaryType = SummaryType.chart;
@@ -378,7 +381,9 @@
             this.functions.load = api.home.getAll;
             this.viewType = ViewType.detail;
             this.paging.page = 1;
-            this.filter();
+            //this.filter();
+            this.createQuery();
+            this.load();
         }
 
         viewSummary(): void {
