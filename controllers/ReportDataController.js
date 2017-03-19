@@ -896,8 +896,14 @@ Controller.prototype.getPayOff = function (query) {
 Controller.prototype.getPayOffReport = function (viewModels, query, user) {
     var self = this;
 
+    var title;
+    if (query['transactionStatus'] === "Belum Terekap")
+        title = "BELUM TEREKAP";
+    else
+        title = "LUNAS";
+
     var result = {
-        "title": "LUNAS",
+        "title": title,
         "token": "a24ef5a6-cc98-41bd-a3b4-5f5b9f878332",
         "location": user.location.name,
         "user": user.name,
@@ -916,19 +922,21 @@ Controller.prototype.getPayOffReport = function (viewModels, query, user) {
             var totalColli = _.sumBy(viewModel.items, 'colli.quantity');
             var contents = _.map(viewModel.items, "content");
 
+            var content = contents.length > 0 ? contents.join(', ') : " ";
+
             if (query['transactionStatus'] === "Belum Terekap") {
                 totalWeight = viewModel.weight;
                 totalColli = viewModel.colli;
-                contents = _.map(viewModel.items, "content");
+                content = viewModel.items.content;
             }
-
+        
             result.rows.push({
                 "spbNumber": viewModel.spbNumber,
                 "sender": viewModel.sender.name ? viewModel.sender.name : viewModel.sender[0].name,
                 "receiver": viewModel.receiver.name,
                 "destinationRegion": viewModel.regions.destination.name ? viewModel.regions.destination.name : viewModel.regions.destination[0].name,
                 "destination": viewModel.destination.name ? viewModel.destination.name : viewModel.destination[0].name,
-                "content": contents.length > 0 ? contents.join(', ') : " ",
+                "content": content,
                 "totalColli": totalColli,
                 "totalWeight": totalWeight,
                 "price": viewModel.cost.total,
