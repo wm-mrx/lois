@@ -53,7 +53,7 @@ Controller.prototype.getAll = function (query) {
         parameters['date'] = { "$gte": date.createLower(query['from']), "$lte": date.createUpper(query['to']) };
 
     return schemas.shippings.find(parameters).sort({ "number": -1 })
-        .populate('sender destination payment.type items.itemType items.packingType').skip(skip).limit(limit).lean().exec();
+        .populate('sender destination payment.type items.itemType items.packingType returnInfo.modified.user modified.user partner').skip(skip).limit(limit).lean().exec();
 };
 
 Controller.prototype.getRecapData = function (shippingId) {
@@ -62,7 +62,8 @@ Controller.prototype.getRecapData = function (shippingId) {
         { "$unwind": "$items" },
         { "$unwind": '$items.recapitulations' },
         { "$lookup": { "from": "trainTypes", "localField": "items.recapitulations.trainType", "foreignField": "_id", "as": "trainType" } },
-        { "$lookup": { "from": "drivers", "localField": "items.recapitulations.driver", "foreignField": "_id", "as": "driver" } }
+        { "$lookup": { "from": "drivers", "localField": "items.recapitulations.driver", "foreignField": "_id", "as": "driver" } },
+        { "$lookup": { "from": "users", "localField": "items.recapitulations.userUpdated", "foreignField": "_id", "as": "user" } }
     ]).exec();
 }
 
@@ -71,7 +72,8 @@ Controller.prototype.getDeliveryData = function (shippingId) {
         { "$match": { "_id": ObjectId(shippingId) } },
         { "$unwind": "$items" },
         { "$unwind": '$items.deliveries' },
-        { "$lookup": { "from": "drivers", "localField": "items.deliveries.driver", "foreignField": "_id", "as": "driver" } }
+        { "$lookup": { "from": "drivers", "localField": "items.deliveries.driver", "foreignField": "_id", "as": "driver" } },
+        { "$lookup": { "from": "users", "localField": "items.deliveries.userUpdated", "foreignField": "_id", "as": "user" } }
     ]).exec();
 }
 
